@@ -1,0 +1,60 @@
+##############################
+# The docker-compose file included in this template is not currently integrated into the CI/CD
+# pipeline. It serves as a starting point for orchestrating multi-container applications locally or
+# in a development environment.
+#
+# If you wish to integrate the docker-compose file into your pipeline, # you can modify the pipeline # stages to utilize docker-compose for building, testing, and deploying
+# your application. For example, you can add a new stage to build and test your application using
+# docker-compose, making sure that your GitLab Runner is set up to work with Docker and
+# docker-compose.
+#
+# Remember to define the necessary services in your docker-compose.yml file to build # and test your # application.
+##############################
+
+# Docker Compose version, check the documentation for compatibility with your Docker version
+version: "3.9"
+
+# Define the services that make up your application
+services:
+  # The "web" service represents the main application
+  web:
+    # The Docker image built by your pipeline
+    image: my_docker_registry/my_project:latest
+
+    # Build configuration for local development
+    build:
+      # The context is the path to the Dockerfile
+      context: .
+
+      # The path to the Dockerfile
+      dockerfile: Dockerfile
+
+    # Map the container's ports to the host's ports
+    ports:
+      # Map the host's port 8080 to the container's port 80
+      - "8080:80"
+
+    # Set any environment variables needed by the application
+    environment:
+      - SOME_ENV_VAR=value
+
+  # Uncomment the following block to add a database service
+  # database:
+  # The Docker image for the database
+  # image: postgres:13
+
+  # Set the container's ports, volumes, and environment variables
+  # ports:
+  # Map the host's port 5432 to the container's port 5432
+  # - "5432:5432"
+  # volumes:
+  # Persist the database data on the host
+  # - db-data:/var/lib/postgresql/data
+  # environment:
+  # Set the database credentials
+  # - POSTGRES_USER=myuser
+  # - POSTGRES_PASSWORD=mypassword
+  # - POSTGRES_DB=mydatabase
+# Uncomment the following block to define a volume for the database data
+# volumes:
+# db-data:

@@ -1,0 +1,26 @@
+# Ignore common system files
+.DS_Store
+Thumbs.db
+*.swp
+
+# Ignore version control directories
+.git
+.gitignore
+.svn
+
+# Ignore build output and intermediate files
+dist
+node_modules
+env
+*.log
+*.tmp
+
+# Ignore sensitive files
+.env
+*.pem
+*.key
+*.cert
+
+# Ignore IDE files
+.idea
+.vscode
