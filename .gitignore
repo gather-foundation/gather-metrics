@@ -15,6 +15,7 @@ Thumbs.db
 dist
 node_modules
 env
+gather-metrics-env
 
 # IDE files
 .idea
