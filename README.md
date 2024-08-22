@@ -1,12 +1,12 @@
-# Project Name
+# GATHER METRICS
 
-[Short project description: A brief introduction to your web project, including its purpose and main features.]
+GatherMetrics is a lightweight web application designed to assist clinicians in quickly calculating and analyzing key health metrics, including head circumference percentiles. The application provides an intuitive interface where users can input patient data and receive immediate, accurate results.
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)
 
 ## Table of Contents
 
-- [Project Name](#project-name)
+- [GATHER METRICS](#gather-metrics)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -24,8 +24,6 @@
   - [Contact](#contact)
 
 ## Getting Started
-
-Please follow the instructions provided in the [Setup Guide](setup.md) to set up your development environment and get started with the project.
 
 ### Prerequisites
 
