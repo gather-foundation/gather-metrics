@@ -8,6 +8,7 @@ app = FastAPI()
 app.include_router(router)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 if __name__ == "__main__":
     import uvicorn
