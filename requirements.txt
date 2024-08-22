@@ -2,5 +2,9 @@ commitizen==3.29.0
 fastapi[standard]==0.112.1
 isort==5.13.2
 mypy==1.11.1
+numpy==2.1.0
+pandas==2.2.2
+pandas-stubs==2.2.2.240807
 pre-commit==3.8.0
 pydantic==2.8.2
+scipy==1.14.1
