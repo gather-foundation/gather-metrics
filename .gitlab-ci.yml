@@ -27,9 +27,9 @@ deploy-aws:
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${DOCKER_REGISTRY_AWS}/${DOCKER_IMAGE_AWS}:latest"
-      --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-      --build-arg BUILD_VERSION=${CI_COMMIT_SHORT_SHA}
-      --build-arg REVISION_ID=$CI_COMMIT_SHORT_SHA
-      --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
-      --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
+      # --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      # --build-arg BUILD_VERSION=${CI_COMMIT_SHORT_SHA}
+      # --build-arg REVISION_ID=$CI_COMMIT_SHORT_SHA
+      # --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
+      # --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
