@@ -1,9 +1,0 @@
-channels:
-  - defaults
-dependencies:
-  - python=3.11 # Replace with the Python minor version of choice
-  - pip
-  - pip:
-      - commitizen
-      - pre-commit
-  # Add other dependencies here

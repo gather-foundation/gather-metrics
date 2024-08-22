@@ -3,7 +3,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       # Check trailing withespace
       - id: trailing-whitespace
@@ -20,7 +20,7 @@ repos:
       # Check for large file commited
       - id: check-added-large-files
         name: "Check: Large files commited?"
-        args: ['--maxkb=10000']
+        args: ["--maxkb=10000"]
       # Check for private keys commited
       - id: detect-private-key
         name: "Check: Private keys commited?"
@@ -35,7 +35,7 @@ repos:
 
   # Check for leaked secrets in commited files
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.2
+    rev: v8.18.4
     hooks:
       - id: gitleaks
         name: "Check: Hardcoded secrets commited?"
@@ -43,38 +43,14 @@ repos:
 
   # Format Python code to follow a consistent style
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 24.8.0
     hooks:
       - id: black
         name: "Format Python code style"
 
-  # Lint JS/TS files (example)
-  # NOTE: For this hook to work, first complete the eslint setup for your project (https://eslint.org/docs/latest/use/getting-started)
-  # - repo: https://github.com/pre-commit/mirrors-eslint
-  #   rev: v8.37.0
-  #   hooks:
-  #     - id: eslint
-  #       additional_dependencies:
-  #         - eslint@4.15.0
-  #         - eslint-config-google@0.7.1
-  #         - eslint-loader@1.6.1
-  #         - eslint-plugin-react@6.10.3
-  #         - babel-eslint@6.1.2
-  #       files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
-  #       types: [file]
-
-  # Format JS/HTML/CSS/JSON/YAML code to follow a consistent style
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.6
-    hooks:
-      - id: prettier
-        name: "Format JS/HTML/CSS/JSON/YAML code style"
-        types_or: [javascript, json, css, scss, html, yaml]
-        args: ["--write"]
-
   # Check dockerfile standard
   - repo: https://github.com/hadolint/hadolint
-    rev: v2.12.1-beta
+    rev: v2.13.0-beta
     hooks:
       - id: hadolint
         name: "Check: Dockerfile linting errors?"
@@ -84,14 +60,14 @@ repos:
 
   # Check Gitlab CI file syntax
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.22.0
+    rev: 0.29.1
     hooks:
       - id: check-gitlab-ci
         name: "Check: Gitlab CI syntax errors?"
 
   # Check commitizen messages (set to run manually)
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.42.1
+    rev: v3.29.0
     hooks:
       - id: commitizen
         name: "Check: message follows commit rules?"
