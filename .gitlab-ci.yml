@@ -22,8 +22,6 @@ deploy-aws:
   # rules:
   #   - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "main"'
   script:
-    - /busybox/mkdir -p /root/.aws
-    - /busybox/echo $CREDENTIALS | base64 -d > /root/.aws/credentials
     - /busybox/echo "{\"credHelpers\":{\"${DOCKER_REGISTRY_AWS}\":\"ecr-login\"}}" > /kaniko/.docker/config.json
     - /kaniko/executor 
       --context "${CI_PROJECT_DIR}"
