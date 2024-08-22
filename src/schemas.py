@@ -5,12 +5,18 @@ from pydantic import BaseModel, Field, field_validator
 from typing_extensions import Annotated
 
 
+class NormalizedPatientData(BaseModel):
+    age_years: float
+    sex: str
+    hcirc_value: float
+
+
 class PatientInput(BaseModel):
-    age_years: Annotated[Union[int, None], Field(strict=True)] = None
-    age_months: Annotated[Union[int, None], Field(strict=True)] = None
+    age_years: Annotated[Union[float, None], Field(strict=True)] = None
+    age_months: Annotated[Union[float, None], Field(strict=True)] = None
     date_of_birth: Union[date, None] = None  # Date of birth
     sex: str
-    hcirc_value: Annotated[Union[int, None], Field(strict=True)] = None
+    hcirc_value: Annotated[Union[float, None], Field(strict=True)] = None
     hcirc_unit: str
 
     @field_validator("sex")
@@ -25,21 +31,29 @@ class PatientInput(BaseModel):
             raise ValueError('Head circumference unit must be "cm" or "in"')
         return v
 
-    def normalize(self):
+    def to_normalized(self) -> "NormalizedPatientData":
         """Normalize input values to years, sex as "M" or "F", and head circumference in cm."""
-        # Convert age to years if given in months
-        if self.age_months is not None:
+        # Convert age to years if given in months or date of birth
+        if self.age_years is not None:
+            age_years = self.age_years
+        elif self.age_months is not None:
             age_years = self.age_months / 12.0
         elif self.date_of_birth is not None:
             today = date.today()
             age_years = (today - self.date_of_birth).days / 365.25
         else:
-            age_years = self.age_years
+            raise ValueError(
+                "At least one of age_years, age_months, or date_of_birth must be provided."
+            )
 
         # Normalize head circumference to cm
-        if self.hcirc_unit == "in":
+        if self.hcirc_value and self.hcirc_unit == "in":
             hcirc_cm = self.hcirc_value * 2.54
-        else:
+        elif self.hcirc_value:
             hcirc_cm = self.hcirc_value
+        else:
+            raise ValueError("No head circumference value was provided.")
 
-        return {"age_years": age_years, "sex": self.sex, "hcirc_cm": hcirc_cm}
+        return NormalizedPatientData(
+            age_years=age_years, sex=self.sex, hcirc_value=hcirc_cm
+        )
