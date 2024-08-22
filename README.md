@@ -1,5 +1,7 @@
 # GATHER METRICS
 
+![GATHER icon](/static/gather-favicon.png)
+
 GatherMetrics is a lightweight web application designed to assist clinicians in quickly calculating and analyzing key health metrics, including head circumference percentiles. The application provides an intuitive interface where users can input patient data and receive immediate, accurate results.
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)
@@ -11,14 +13,10 @@ GatherMetrics is a lightweight web application designed to assist clinicians in 
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-  - [Usage](#usage)
-  - [Development](#development)
-    - [Architecture](#architecture)
     - [Running Locally](#running-locally)
-    - [Testing](#testing)
-    - [Building](#building)
+  - [Testing](#testing)
   - [Deployment](#deployment)
-  - [Documentation](#documentation)
+  - [Architecture](#architecture)
   - [Contributing](#contributing)
   - [License](#license)
   - [Contact](#contact)
@@ -27,41 +25,63 @@ GatherMetrics is a lightweight web application designed to assist clinicians in 
 
 ### Prerequisites
 
-[List the prerequisites needed to run the web project, such as software, libraries, or tools.]
+- Python 3.8+
 
 ### Installation
 
-[Provide step-by-step instructions on how to set up and install the project.]
+1. Clone the Repository:
 
-## Usage
+```bash
+git clone https://path/to/repo/gather-metrics.git
+cd gather-metrics
+```
 
-[Provide instructions on how to use the project. Include examples or code snippets if applicable.]
+2. Create a Virtual Environment:
 
-## Development
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-### Architecture
+3. Install Dependencies:
 
-[Describe the project's architecture and organization.]
+```bash
+pip install -r requirements.txt
+```
 
 ### Running Locally
 
-[Explain how to run the project locally for development purposes.]
+1. Start the FasAPI development server:
 
-### Testing
+```bash
+fastapi dev src/main.py
+```
+
+2. Access local site
+
+Visit http://127.0.0.1:8000/ for the main site.
+
+3. Access API documentation
+
+Visit http://127.0.0.1:8000/docs for the Swagger documentation.
+
+4. Example API call
+
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/head-circumference" -H "Content-Type: application/json" -d '{"age_years": 3, "sex": "M", "hcirc_value": 50}'
+```
+
+## Testing
 
 [Explain how to run tests for the project.]
-
-### Building
-
-[Explain how to build the project for production.]
 
 ## Deployment
 
 [Provide instructions on how to deploy the project to different environments (e.g., staging, production).]
 
-## Documentation
+## Architecture
 
-[Provide a link to the project's documentation or explain where to find it.]
+[Describe the project's architecture and organization.]
 
 ## Contributing
 
