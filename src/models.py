@@ -12,11 +12,11 @@ class Patient:
         self,
         age: Union[int, float],
         sex: str,
-        head_circumference: dict[str, float],
+        hcirc: dict[str, float],
     ):
         self.age = age
         self.sex = sex
-        self.head_circumference = head_circumference
+        self.hcirc = hcirc
 
     def calculate_hcirc_percentile(self) -> float:
 
@@ -35,7 +35,6 @@ class Patient:
                 self.age = max(maleAge)
             age25 = np.interp(self.age, maleAge, male25)
             age75 = np.interp(self.age, maleAge, male75)
-            print("HELLO")
         elif self.sex == "F":
             if self.age > max(femaleAge):
                 self.age = max(femaleAge)
@@ -44,8 +43,7 @@ class Patient:
 
         loc, scale = norm_from_percentiles(age25, 0.25, age75, 0.75)
 
-        perc = stats.norm.cdf(self.head_circumference["value"], loc=loc, scale=scale)
+        perc = stats.norm.cdf(self.hcirc["value_cm"], loc=loc, scale=scale)
         perc_rounded = round(perc * 100, 2)
-        self.head_circumference["percentile"] = perc_rounded
-        print(perc_rounded)
-        return self.head_circumference["percentile"]
+        self.hcirc["percentile"] = perc_rounded
+        return self.hcirc["percentile"]

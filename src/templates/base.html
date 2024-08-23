@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/gather-favicon.png">
     <title>Gather Metrics</title>
+    <!-- Include HTMX -->
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+
 </head>
 <body>
     <header>
         <h1>Gather Metrics</h1>
     </header>
     <main>
-        {% block content %}
-        {% endblock %}
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 </body>
 </html>
