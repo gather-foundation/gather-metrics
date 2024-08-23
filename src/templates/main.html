@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="form-container">
+    <h2>Calculate Head Circumference Percentile</h2>
+    <form hx-post="/head-circumference" hx-target="#result-container" hx-swap="innerHTML" hx-include="find #age_float_input input, find #age_date_input input">
+
+        <!-- Radio buttons to select age input type -->
+        <label>Select Age Unit:</label><br>
+
+        <input type="radio" id="age_years" name="age_unit" value="years" checked>
+        <label for="age_years">Years</label><br>
+
+        <input type="radio" id="age_months" name="age_unit" value="months">
+        <label for="age_months">Months</label><br>
+
+        <input type="radio" id="age_weeks" name="age_unit" value="weeks">
+        <label for="age_weeks">Weeks</label><br>
+
+        <input type="radio" id="age_days" name="age_unit" value="days">
+        <label for="age_days">Days</label><br>
+
+        <input type="radio" id="age_dob" name="age_unit" value="dob">
+        <label for="age_dob">Date of Birth</label><br>
+
+        <!-- Float Input Field (Visible by default) -->
+        <div id="age_float_input">
+            <label for="age_value_float">Age:</label>
+            <input type="number" id="age_value_float" name="age_value_float"><br>
+        </div>
+
+        <!-- Date Input Field (Hidden by default) -->
+        <div id="age_date_input">
+            <label for="age_value_date">Date of Birth:</label>
+            <input type="date" id="age_value_date" name="age_value_date"><br>
+        </div>
+
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select><br>
+
+        <label for="hcirc_value">Head Circumference:</label>
+        <input type="number" step="0.1" id="hcirc_value" name="hcirc_value" required><br>
+
+        <label for="hcirc_unit">Head Circumference Unit:</label>
+        <select id="hcirc_unit" name="hcirc_unit" required>
+            <option value="cm">cm</option>
+            <option value="in">in</option>
+        </select><br>
+
+        <button type="submit">Calculate</button>
+    </form>
+</div>
+
+<div id="result-container">
+    <h2>Results</h2>
+    <p id="result">No results yet. Please fill out the form and submit to see the percentile.</p>
+</div>
+{% endblock %}

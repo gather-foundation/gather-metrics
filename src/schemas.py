@@ -1,22 +1,22 @@
 from datetime import date
 from typing import Union
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from typing_extensions import Annotated
 
 
 class NormalizedPatientData(BaseModel):
     age_years: float
     sex: str
-    hcirc_value: float
+    hcirc_cm: float
 
 
 class PatientInput(BaseModel):
-    age_years: Annotated[Union[float, None], Field(strict=True)] = None
-    age_months: Annotated[Union[float, None], Field(strict=True)] = None
-    date_of_birth: Union[date, None] = None  # Date of birth
+    age_unit: str
+    age_value_float: Union[float, None] = None  # For years/months/weeks/days
+    age_value_date: Union[date, None] = None  # For date of birth
     sex: str
-    hcirc_value: Annotated[Union[float, None], Field(strict=True)] = None
+    hcirc_value: float
     hcirc_unit: str
 
     @field_validator("sex")
@@ -31,20 +31,40 @@ class PatientInput(BaseModel):
             raise ValueError('Head circumference unit must be "cm" or "in"')
         return v
 
-    def to_normalized(self) -> "NormalizedPatientData":
-        """Normalize input values to years, sex as "M" or "F", and head circumference in cm."""
-        # Convert age to years if given in months or date of birth
-        if self.age_years is not None:
-            age_years = self.age_years
-        elif self.age_months is not None:
-            age_years = self.age_months / 12.0
-        elif self.date_of_birth is not None:
-            today = date.today()
-            age_years = (today - self.date_of_birth).days / 365.25
-        else:
+    @model_validator(mode="before")
+    def check_age_values(cls, values):
+        age_unit = values.get("age_unit")
+        age_value_float = values.get("age_value_float")
+        age_value_date = values.get("age_value_date")
+
+        if age_unit == "dob" and not age_value_date:
             raise ValueError(
-                "At least one of age_years, age_months, or date_of_birth must be provided."
+                "Date of birth must be provided when 'dob' is selected as age unit."
             )
+        elif age_unit != "dob" and age_value_float is None:
+            raise ValueError(f"Age value must be provided when {age_unit} is selected.")
+
+        return values
+
+    def to_normalized(self) -> "NormalizedPatientData":
+        """Normalize input values to years, sex as 'M' or 'F', and head circumference in cm."""
+
+        # Normalize age to years based on the age_unit
+        if self.age_unit == "years":
+            age_years = self.age_value_float
+        elif self.age_unit == "months":
+            age_years = self.age_value_float / 12.0
+        elif self.age_unit == "weeks":
+            age_years = self.age_value_float / 52.1775  # 52.1775 weeks in a year
+        elif self.age_unit == "days":
+            age_years = (
+                self.age_value_float / 365.25
+            )  # 365.25 days in a year to account for leap years
+        elif self.age_unit == "dob":
+            today = date.today()
+            age_years = (today - self.age_value_date).days / 365.25
+        else:
+            raise ValueError("Invalid age unit provided.")
 
         # Normalize head circumference to cm
         if self.hcirc_value and self.hcirc_unit == "in":
@@ -55,5 +75,5 @@ class PatientInput(BaseModel):
             raise ValueError("No head circumference value was provided.")
 
         return NormalizedPatientData(
-            age_years=age_years, sex=self.sex, hcirc_value=hcirc_cm
+            age_years=age_years, sex=self.sex, hcirc_cm=hcirc_cm
         )
