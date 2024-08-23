@@ -12,8 +12,8 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY ./src /code/app
 
 # Copy the static and data directories from the root
-COPY ./static /code/app/static
-COPY ./data /code/app/data
+COPY ./static /code/static
+COPY ./data /code/data
 
 # Set the command to run FastAPI with Uvicorn
 CMD ["fastapi", "run", "app/main.py", "--port", "80"]
