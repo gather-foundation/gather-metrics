@@ -1,3 +1,17 @@
+image: python:3.12-alpine
+
+stages:
+  - test
+  - release
+  - deploy
+
+variables:
+  # Registry Name
+  DOCKER_IMAGE: gather-metrics
+  # Kubernetes ENV variables
+  K8S_NAMESPACE: gather
+  DEPLOYMENT_DEV: gather-metrics-dev
+
 ################################################################################################################################
 #                                                        TEST                                                                  #
 ################################################################################################################################
@@ -8,6 +22,54 @@ test:
     - echo "Placeholder for running tests"
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^feature.*$/ || $CI_COMMIT_BRANCH =~ /^fix.*$/"
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+################################################################################################################################
+#                                                        RELEASE - DEV                                                          #
+################################################################################################################################
+build_dev_image:
+  stage: release
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  # rules:
+  #   - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "development"'
+  script:
+    - mkdir -p /kaniko/.docker
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${DOCKER_REGISTRY}/${DOCKER_IMAGE}:latest-dev"
+      --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      --build-arg REVISION_ID=$CI_COMMIT_SHORT_SHA
+      --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
+      --cache=true
+      --cache-repo ${DOCKER_REGISTRY}/${DOCKER_IMAGE}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+################################################################################################################################
+#                                                        DEPLOY - DEV                                                          #
+################################################################################################################################
+deploy_dev:
+  stage: deploy
+  image: docker:stable
+  # rules:
+  #   - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "development"'
+  before_script:
+    - echo "Installing kubectl"
+    - apk add --no-cache curl
+    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    - chmod +x kubectl
+    - mv kubectl /usr/local/bin/
+    - echo "$KUBECONFIG" > kubeconfig.yaml
+    - export KUBECONFIG=kubeconfig.yaml
+  script:
+    - kubectl rollout restart deployment/${DEPLOYMENT_DEV} -n $K8S_NAMESPACE
+  after_script:
+    - unset KUBECONFIG
+    - rm kubeconfig.yaml
+  needs:
+    - build_dev_image
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 ################################################################################################################################
