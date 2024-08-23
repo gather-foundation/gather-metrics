@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="nord"> <!-- Set the theme here -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/gather-favicon.png">
     <title>Gather Metrics</title>
     <!-- Include HTMX -->
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-
 </head>
-<body>
-    <header>
-        <h1>Gather Metrics</h1>
-    </header>
-    <main>
-        <div id="content">
+<body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    {% include 'layout/header.html' %}
+
+    <!-- Main Content -->
+    <main class="flex-grow flex justify-center items-center">
+        <div id="content" class="w-full sm:w-9/10 md:w-6/10 lg:w-5/10 max-w-screen-lg p-8">
             {% block content %}
             {% endblock %}
         </div>
     </main>
+
+    <!-- Footer -->
+    {% include 'layout/footer.html' %}
 </body>
 </html>
