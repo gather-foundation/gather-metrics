@@ -9,7 +9,7 @@ def calculate_hcirc_percentile(patient_data: NormalizedPatientData) -> float:
         patient = Patient(
             age=patient_data.age_years,
             sex=patient_data.sex,
-            head_circumference={"value": patient_data.hcirc_value},
+            hcirc={"value_cm": patient_data.hcirc_cm},
         )
         result = patient.calculate_hcirc_percentile()
         return result
