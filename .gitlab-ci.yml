@@ -1,3 +1,9 @@
+image: python:3.12-alpine
+
+stages:
+  - test
+  - deploy
+
 ################################################################################################################################
 #                                                        TEST                                                                  #
 ################################################################################################################################
@@ -9,6 +15,7 @@ test:
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^feature.*$/ || $CI_COMMIT_BRANCH =~ /^fix.*$/"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 ################################################################################################################################
 #                                                        DEPLOY - PROD                                                         #
@@ -19,17 +26,17 @@ deploy-aws:
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "development"'
+  # rules:
+  #   - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "development"'
   script:
     - /busybox/echo "{\"credHelpers\":{\"${DOCKER_REGISTRY_AWS}\":\"ecr-login\"}}" > /kaniko/.docker/config.json
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${DOCKER_REGISTRY_AWS}/${DOCKER_IMAGE_AWS}:latest"
-      --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-      --build-arg BUILD_VERSION=${CI_COMMIT_SHORT_SHA}
-      --build-arg REVISION_ID=$CI_COMMIT_SHORT_SHA
-      --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
-      --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
+      # --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      # --build-arg BUILD_VERSION=${CI_COMMIT_SHORT_SHA}
+      # --build-arg REVISION_ID=$CI_COMMIT_SHORT_SHA
+      # --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
+      # --build-arg CI_PROJECT_NAME=$CI_PROJECT_NAME
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
