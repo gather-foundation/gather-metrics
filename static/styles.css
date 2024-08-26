@@ -1,32 +1,14 @@
-/* Default state - Show the float input, hide the date input */
-#age_float_input {
-    display: block;
-}
-
+/* Default state - Hide the date input field */
 #age_date_input {
     display: none;
 }
 
-/* Show the float input when any float-based option is selected */
-#age_years:checked ~ #age_float_input,
-#age_months:checked ~ #age_float_input,
-#age_weeks:checked ~ #age_float_input,
-#age_days:checked ~ #age_float_input {
+/* Show the date input field when DOB is selected */
+input#age_dob:checked ~ #age_date_input {
     display: block;
 }
 
-#age_years:checked ~ #age_date_input,
-#age_months:checked ~ #age_date_input,
-#age_weeks:checked ~ #age_date_input,
-#age_days:checked ~ #age_date_input {
+/* Hide the float input field when DOB is selected */
+input#age_dob:checked ~ #age_float_input {
     display: none;
-}
-
-/* Show the date input when the "Date of Birth" option is selected */
-#age_dob:checked ~ #age_float_input {
-    display: none;
-}
-
-#age_dob:checked ~ #age_date_input {
-    display: block;
 }
