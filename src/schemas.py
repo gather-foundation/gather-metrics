@@ -30,6 +30,13 @@ class PatientInput(BaseModel):
             raise ValueError('Head circumference unit must be "cm" or "in"')
         return v
 
+    @field_validator("age_value")
+    def validate_age_value(cls, v, values):
+        if isinstance(v, date) and v > date.today():
+            print(v, date.today())
+            raise ValueError("Date of birth cannot be in the future.")
+        return v
+
     def to_normalized(self) -> "NormalizedPatientData":
         """Normalize input values to years, sex as 'M' or 'F', and head circumference in cm."""
 

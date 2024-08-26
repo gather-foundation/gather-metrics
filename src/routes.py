@@ -1,12 +1,13 @@
 from datetime import date
 from typing import Union
 
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from schemas import NormalizedPatientData, PatientInput
+from schemas import PatientInput
 from services import calculate_hcirc_percentile
+from utils.error_handling_utils import http_exception_handler
 
 router = APIRouter()
 templates = Jinja2Templates("src/templates")
@@ -37,7 +38,9 @@ async def show_age(request: Request):
 
 
 # Display Result
-@router.post("/head-circumference", include_in_schema=False)
+@router.post(
+    "/head-circumference", include_in_schema=False, response_class=HTMLResponse
+)
 async def display_result(
     request: Request,
     age_unit: str = Form(...),
@@ -59,19 +62,30 @@ async def display_result(
         # Normalize the data
         normalized_data = patient_input.to_normalized()
         hcirc_percentile = calculate_hcirc_percentile(normalized_data)
+        print(hcirc_percentile)
 
-        # Assume a successful response returns a results partial
         return templates.TemplateResponse(
-            "hcirc_result.html",
+            "result/hcirc_result.html",
             {"request": request, "hcirc_percentile": hcirc_percentile},
+            status_code=200,
         )
+
     except Exception as e:
-        # Return the error partial if there's an error
-        return templates.TemplateResponse(
-            "shared/error_banner.html",
-            {"request": request, "error_message": str(e)},
-            status_code=400,
-        )
+        if isinstance(e, ValueError):
+            # Extract and simplify the error message
+            full_message = str(e).split("\n")[2]  # Get the main error message
+            simplified_message = full_message.split("[")[
+                0
+            ].strip()  # Remove extra details
+            raise HTTPException(
+                status_code=422,
+                detail=simplified_message,  # Use the simplified message for the user
+            )
+        else:
+            raise HTTPException(
+                status_code=500,
+                detail="There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
+            )
 
 
 # Return Result as JSON
