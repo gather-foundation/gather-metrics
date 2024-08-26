@@ -1,1 +1,7 @@
+{% if hcirc_percentile < 1 %}
+<span>< 1</span>
+{% elif hcirc_percentile > 99 %}
+<span>> 99</span>
+{% else %}
 <span>{{ hcirc_percentile }}</span>
+{% endif %}

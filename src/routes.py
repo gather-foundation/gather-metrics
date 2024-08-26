@@ -27,13 +27,13 @@ async def root(request: Request):
 @router.get("/show-dob", response_class=HTMLResponse, include_in_schema=False)
 async def show_dob(request: Request):
     # Render the HTML for the Date of Birth input field
-    return templates.TemplateResponse("form/input_date.html", {"request": request})
+    return templates.TemplateResponse("form/input_dob.html", {"request": request})
 
 
 @router.get("/show-age", response_class=HTMLResponse, include_in_schema=False)
 async def show_age(request: Request):
     # Render the HTML for the Age + Unit input field
-    return templates.TemplateResponse("form/input_float.html", {"request": request})
+    return templates.TemplateResponse("form/input_age.html", {"request": request})
 
 
 # Display Result
