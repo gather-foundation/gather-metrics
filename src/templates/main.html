@@ -1,61 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="form-container">
-    <h2>Calculate Head Circumference Percentile</h2>
-    <form hx-post="/head-circumference" hx-target="#result-container" hx-swap="innerHTML" hx-include="find #age_float_input input, find #age_date_input input">
+<h2 class="text-center sm:text-left text-xl sm:text-2xl font-bold mb-2 sm:mb-4">Calculate Head Circumference Percentile</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-start w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
+    <!-- First Column: Form -->
+    <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+        {% include "form/form.html" %}
+    </div>
 
-        <!-- Radio buttons to select age input type -->
-        <label>Select Age Unit:</label><br>
-
-        <input type="radio" id="age_years" name="age_unit" value="years" checked>
-        <label for="age_years">Years</label><br>
-
-        <input type="radio" id="age_months" name="age_unit" value="months">
-        <label for="age_months">Months</label><br>
-
-        <input type="radio" id="age_weeks" name="age_unit" value="weeks">
-        <label for="age_weeks">Weeks</label><br>
-
-        <input type="radio" id="age_days" name="age_unit" value="days">
-        <label for="age_days">Days</label><br>
-
-        <input type="radio" id="age_dob" name="age_unit" value="dob">
-        <label for="age_dob">Date of Birth</label><br>
-
-        <!-- Float Input Field (Visible by default) -->
-        <div id="age_float_input">
-            <label for="age_value_float">Age:</label>
-            <input type="number" id="age_value_float" name="age_value_float"><br>
+    <!-- Second Column: Results and Explanation -->
+    <div class="flex flex-col space-y-4">
+        <div id="result-container" class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+            <h2 class="text-center sm:text-left text-xl sm:text-2xl font-bold"><span id="result">_ _</span></h2>
         </div>
-
-        <!-- Date Input Field (Hidden by default) -->
-        <div id="age_date_input">
-            <label for="age_value_date">Date of Birth:</label>
-            <input type="date" id="age_value_date" name="age_value_date"><br>
+        <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+            <h2 class="text-center sm:text-left text-lg sm:text-xl font-bold">Understanding the Results</h2>
+            <p class="text-center sm:text-left">Explanation regarding the head circumference percentile goes here. Provide details about what the results mean and how they should be interpreted.</p>
         </div>
-
-        <label for="sex">Sex:</label>
-        <select id="sex" name="sex" required>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-        </select><br>
-
-        <label for="hcirc_value">Head Circumference:</label>
-        <input type="number" step="0.1" id="hcirc_value" name="hcirc_value" required><br>
-
-        <label for="hcirc_unit">Head Circumference Unit:</label>
-        <select id="hcirc_unit" name="hcirc_unit" required>
-            <option value="cm">cm</option>
-            <option value="in">in</option>
-        </select><br>
-
-        <button type="submit">Calculate</button>
-    </form>
+    </div>
 </div>
-
-<div id="result-container">
-    <h2>Results</h2>
-    <p id="result">No results yet. Please fill out the form and submit to see the percentile.</p>
+<!-- Powered By Section -->
+<div class="flex flex-col items-center justify-center mt-8">
+    <div class="flex items-center space-x-2 text-gray-500">
+        <!-- Powered by icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.371 0 0 5.372 0 12c0 6.629 5.371 12 12 12s12-5.371 12-12c0-6.628-5.371-12-12-12zm-3 17.25V6.75L17.25 12 9 17.25z"/>
+        </svg>
+        <span class="text-sm">Powered by</span>
+        <!-- Linked Company logo -->
+        <a href="https://stalicla.com" target="_blank" rel="noopener noreferrer">
+            <img src="/static/img/stalicla_logo_letters.svg" alt="Company Logo" class="h-8 w-auto">
+        </a>
+    </div>
 </div>
 {% endblock %}
