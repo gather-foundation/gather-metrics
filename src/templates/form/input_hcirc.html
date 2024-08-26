@@ -1,10 +1,17 @@
 <div class="mb-8">
     <label for="hcirc_value" class="block mb-2 font-medium">Head Circumference</label>
     <div class="flex space-x-2">
-        <input type="number" step="0.1" min="0" id="hcirc_value" name="hcirc_value" class="input input-bordered rounded w-full" required>
-        <select id="hcirc_unit" name="hcirc_unit" class="select select-bordered w-24" required>
-            <option value="cm">cm</option>
-            <option value="in">in</option>
-        </select>
+        <input type="number" step="0.1" min="0" id="hcirc_value" name="hcirc_value" class="input input-bordered rounded w-2/5 sm:w-1/2 lg:w-3/5" required>
+
+        <div class="flex w-3/5 sm:w-1/2 lg:w-2/5 space-x-2">
+            <div class="flex items-center w-1/2 border border-gray-300 rounded">
+                <input id="hcirc_unit_cm" type="radio" value="cm" name="hcirc_unit" checked="checked" class="w-4 h-4 ms-4 bg-gray-100 border-gray-300 hover:bg-red-400 hover:text-red-400 focus:bg-red-400 focus:text-red-400 focus:outline-red-400 checked:bg-red-400 checked:outline-red-400">
+                <label for="hcirc_unit_cm" class="w-full ms-2 text-sm font-medium text-gray-900">cm</label>
+            </div>
+            <div class="flex items-center w-1/2 border border-gray-300 rounded">
+                <input id="hcirc_unit_in" type="radio" value="in" name="hcirc_unit" class="w-4 h-4 ms-4 bg-gray-100 border-gray-300 hover:bg-red-400 hover:text-red-400 focus:bg-red-400 focus:text-red-400 focus:outline-red-400 checked:bg-red-400 checked:outline-red-400">
+                <label for="hcirc_unit_in" class="w-full ms-2 text-sm font-medium text-gray-900">in</label>
+            </div>
+        </div>
     </div>
 </div>
