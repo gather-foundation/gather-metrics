@@ -1,8 +1,8 @@
 from datetime import date
 from enum import Enum
-from typing import Annotated, Any, Union
+from typing import Union
 
-from pydantic import BaseModel, Field, PastDate, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 from .models import Sex
 
@@ -28,7 +28,7 @@ class NormalizedPatientData(BaseModel):
 
 class PatientInput(BaseModel):
     age_unit: AgeUnitEnum
-    age_value: Union[float, PastDate] = Field(
+    age_value: Union[float, date] = Field(
         union_mode="left_to_right"
     )  # For years/months/weeks/days or date of birth
     sex: Sex
