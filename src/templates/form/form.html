@@ -1,14 +1,14 @@
 <div id="form-container">
     <form hx-post="/head-circumference"
     hx-target="#result"
-    hx-swap="innerHTML">
+    hx-target-error="#result"
+    hx-swap="outerHTML">
 
         <!-- Age + Unit Input Field -->
         {% include "form/input_age.html" %}
 
         <!-- Sex -->
         {% include "form/input_sex.html" %}
-
 
         <!-- Head Circumference Value + Unit -->
         {% include "form/input_hcirc.html" %}
