@@ -5,7 +5,8 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from schemas import PatientInput
+from models import Sex
+from schemas import AgeUnitEnum, HcircUnitEnum, PatientInput
 from services import calculate_hcirc_percentile, is_valid_age
 
 router = APIRouter()
@@ -39,9 +40,10 @@ async def show_age(request: Request):
 @router.post("/validate-age", response_class=HTMLResponse, include_in_schema=False)
 async def validate_age(
     request: Request,
-    age_value: Union[float, date] = Form(...),
-    age_unit: str = Form(...),
+    age_value: Union[float, date] = Form(None),
+    age_unit: AgeUnitEnum = Form(...),
 ):
+
     try:
         has_error, context = is_valid_age(age_value, age_unit)
         context["request"] = request
@@ -75,11 +77,11 @@ async def display_result(
 ):
     try:
         patient_input = PatientInput(
-            age_unit=age_unit,
+            age_unit=AgeUnitEnum(age_unit),
             age_value=age_value,
-            sex=sex,
+            sex=Sex(sex),
             hcirc_value=hcirc_value,
-            hcirc_unit=hcirc_unit,
+            hcirc_unit=HcircUnitEnum(hcirc_unit),
         )
 
         normalized_data = patient_input.to_normalized()
@@ -105,7 +107,7 @@ async def display_result(
             },
             status_code=422,
         )
-    except Exception:
+    except Exception as e:
         # Render the form with a generic error message and a placeholder result
         return templates.TemplateResponse(
             "result/hcirc_result.html",
