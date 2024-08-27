@@ -36,7 +36,7 @@ async def show_age(request: Request):
     return templates.TemplateResponse("form/input_age.html", {"request": request})
 
 
-@router.post("/validate-age", response_class=HTMLResponse)
+@router.post("/validate-age", response_class=HTMLResponse, include_in_schema=False)
 async def validate_age(
     request: Request,
     age_value: Union[float, date] = Form(...),

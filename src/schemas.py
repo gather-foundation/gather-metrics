@@ -1,8 +1,27 @@
 from datetime import date
+from enum import Enum
 from typing import Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 from typing_extensions import Annotated
+
+
+class SexEnum(str, Enum):
+    M = "M"
+    F = "F"
+
+
+class HcircUnitEnum(str, Enum):
+    cm = "cm"
+    inch = "in"
+
+
+class AgeUnitEnum(str, Enum):
+    years = "years"
+    months = "months"
+    weeks = "weeks"
+    days = "days"
+    dob = "dob"
 
 
 class NormalizedPatientData(BaseModel):
@@ -12,23 +31,23 @@ class NormalizedPatientData(BaseModel):
 
 
 class PatientInput(BaseModel):
-    age_unit: str
+    age_unit: AgeUnitEnum
     age_value: Union[float, date]  # For years/months/weeks/days or date of birth
-    sex: str
-    hcirc_value: float
-    hcirc_unit: str
+    sex: SexEnum
+    hcirc_value: float = Field(..., ge=0, le=200)
+    hcirc_unit: HcircUnitEnum
 
-    @field_validator("sex")
-    def validate_sex(cls, v):
-        if v not in {"M", "F"}:
-            raise ValueError('Sex must be "M" or "F"')
-        return v
+    # @field_validator("sex")
+    # def validate_sex(cls, v):
+    #     if v not in {"M", "F"}:
+    #         raise ValueError('Sex must be "M" or "F"')
+    #     return v
 
-    @field_validator("hcirc_unit")
-    def validate_hcirc_unit(cls, v):
-        if v not in {"cm", "in"}:
-            raise ValueError('Head circumference unit must be "cm" or "in"')
-        return v
+    # @field_validator("hcirc_unit")
+    # def validate_hcirc_unit(cls, v):
+    #     if v not in {"cm", "in"}:
+    #         raise ValueError('Head circumference unit must be "cm" or "in"')
+    #     return v
 
     @field_validator("age_value")
     def validate_age_value(cls, v, values):
