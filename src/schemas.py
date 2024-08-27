@@ -13,7 +13,7 @@ class NormalizedPatientData(BaseModel):
 
 class PatientInput(BaseModel):
     age_unit: str
-    age_value: Union[float, date] = None  # For years/months/weeks/days or date of birth
+    age_value: Union[float, date]  # For years/months/weeks/days or date of birth
     sex: str
     hcirc_value: float
     hcirc_unit: str

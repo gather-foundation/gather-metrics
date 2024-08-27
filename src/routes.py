@@ -6,8 +6,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from schemas import PatientInput
-from services import calculate_hcirc_percentile
-from utils.error_handling_utils import http_exception_handler
+from services import calculate_hcirc_percentile, is_valid_age
 
 router = APIRouter()
 templates = Jinja2Templates("src/templates")
@@ -37,6 +36,31 @@ async def show_age(request: Request):
     return templates.TemplateResponse("form/input_age.html", {"request": request})
 
 
+@router.post("/validate-age", response_class=HTMLResponse)
+async def validate_age(
+    request: Request,
+    age_value: Union[float, date] = Form(...),
+    age_unit: str = Form(...),
+):
+    try:
+        has_error, context = is_valid_age(age_value, age_unit)
+        context["request"] = request
+
+        # Decide which template to render based on age_unit
+        template_name = (
+            "form/input_dob.html" if age_unit == "dob" else "form/input_age.html"
+        )
+
+        return templates.TemplateResponse(template_name, context)
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=500,
+            detail="There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
+        )
+
+
 # Display Result
 @router.post(
     "/head-circumference", include_in_schema=False, response_class=HTMLResponse
@@ -50,7 +74,6 @@ async def display_result(
     hcirc_unit: str = Form(...),
 ):
     try:
-        # Create PatientInput instance
         patient_input = PatientInput(
             age_unit=age_unit,
             age_value=age_value,
@@ -59,39 +82,45 @@ async def display_result(
             hcirc_unit=hcirc_unit,
         )
 
-        # Normalize the data
         normalized_data = patient_input.to_normalized()
         hcirc_percentile = calculate_hcirc_percentile(normalized_data)
-        print(hcirc_percentile)
 
         return templates.TemplateResponse(
             "result/hcirc_result.html",
-            {"request": request, "hcirc_percentile": hcirc_percentile},
-            status_code=200,
+            {
+                "request": request,
+                "hcirc_percentile": hcirc_percentile,
+                "error_message": None,
+            },
         )
 
-    except Exception as e:
-        if isinstance(e, ValueError):
-            # Extract and simplify the error message
-            full_message = str(e).split("\n")[2]  # Get the main error message
-            simplified_message = full_message.split("[")[
-                0
-            ].strip()  # Remove extra details
-            raise HTTPException(
-                status_code=422,
-                detail=simplified_message,  # Use the simplified message for the user
-            )
-        else:
-            raise HTTPException(
-                status_code=500,
-                detail="There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
-            )
+    except ValueError as e:
+        # Render the form with an error message and a placeholder result
+        return templates.TemplateResponse(
+            "result/hcirc_result.html",
+            {
+                "request": request,
+                "hcirc_percentile": None,  # Placeholder to clear the result
+                "error_message": "Please check your input and try again.",
+            },
+            status_code=422,
+        )
+    except Exception:
+        # Render the form with a generic error message and a placeholder result
+        return templates.TemplateResponse(
+            "result/hcirc_result.html",
+            {
+                "request": request,
+                "hcirc_percentile": None,  # Placeholder to clear the result
+                "error_message": "There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
+            },
+            status_code=500,
+        )
 
 
 # Return Result as JSON
 @router.post("/api/v1/head-circumference", response_class=JSONResponse)
 async def calculate_percentile_api(patient_input: PatientInput):
-    # patient_input is already an instance of PatientInput
     normalized_data = patient_input.to_normalized()
     hcirc_percentile = calculate_hcirc_percentile(normalized_data)
     return JSONResponse(content={"hcirc_percentile": hcirc_percentile})

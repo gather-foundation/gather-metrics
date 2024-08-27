@@ -1,7 +1,24 @@
-{% if hcirc_percentile < 1 %}
-<span>< 1</span>
-{% elif hcirc_percentile > 99 %}
-<span>> 99</span>
-{% else %}
-<span>{{ hcirc_percentile }}</span>
-{% endif %}
+<!-- Display the Head Circumference Percentile Result -->
+<div id="result" class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+    <!-- Display the Head Circumference Percentile Result -->
+    <div id="result-display" class="text-center sm:text-left text-xl sm:text-2xl font-bold">
+        {% if hcirc_percentile is undefined or hcirc_percentile is none %}
+            <span>_ _</span> <!-- Placeholder if hcirc_percentile is not set -->
+        {% else %}
+            {% if hcirc_percentile < 1 %}
+                <span>< 1</span>
+            {% elif hcirc_percentile > 99 %}
+                <span>> 99</span>
+            {% else %}
+                <span>{{ hcirc_percentile }}</span>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Display Error Message if Exists -->
+    <div id="error-display" class="mt-2">
+        {% if error_message %}
+            {% include 'shared/error.html' %}
+        {% endif %}
+    </div>
+</div>
