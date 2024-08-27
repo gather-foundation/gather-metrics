@@ -13,7 +13,7 @@ class NormalizedPatientData(BaseModel):
 
 class PatientInput(BaseModel):
     age_unit: str
-    age_value: Union[float, date] = None  # For years/months/weeks/days or date of birth
+    age_value: Union[float, date]  # For years/months/weeks/days or date of birth
     sex: str
     hcirc_value: float
     hcirc_unit: str
@@ -28,6 +28,13 @@ class PatientInput(BaseModel):
     def validate_hcirc_unit(cls, v):
         if v not in {"cm", "in"}:
             raise ValueError('Head circumference unit must be "cm" or "in"')
+        return v
+
+    @field_validator("age_value")
+    def validate_age_value(cls, v, values):
+        if isinstance(v, date) and v > date.today():
+            print(v, date.today())
+            raise ValueError("Date of birth cannot be in the future.")
         return v
 
     def to_normalized(self) -> "NormalizedPatientData":

@@ -10,13 +10,20 @@
 
     <!-- Second Column: Results and Explanation -->
     <div class="flex flex-col space-y-4">
-        <div id="result-container" class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
-            <h2 class="text-center sm:text-left text-xl sm:text-2xl font-bold"><span id="result">_ _</span></h2>
-        </div>
+        {% include "result/hcirc_result.html" %}
         <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
             <h2 class="text-center sm:text-left text-lg sm:text-xl font-bold">Understanding the Results</h2>
             <p class="text-center sm:text-left">Explanation regarding the head circumference percentile goes here. Provide details about what the results mean and how they should be interpreted.</p>
         </div>
+        <div id="error"></div>
+    </div>
+    <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+        <h2 class="text-center sm:text-left text-lg sm:text-xl font-bold">About our Model</h2>
+        <p class="text-center sm:text-left">Pending.</p>
+    </div>
+    <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+        <h2 class="text-center sm:text-left text-lg sm:text-xl font-bold">About GATHER Foundation</h2>
+        <p class="text-center sm:text-left">Pending.</p>
     </div>
 </div>
 <!-- Powered By Section -->
