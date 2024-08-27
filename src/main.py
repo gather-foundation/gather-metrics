@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from routes import router
+from .routes import router
+from .utils.rate_limiter import setup_rate_limiter
 
 app = FastAPI(
     title="GATHER Metrics",
@@ -23,8 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Setup rate limiter and add middleware/exception handler
+setup_rate_limiter(app)
 app.include_router(router)
+
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/data", StaticFiles(directory="data"), name="data")

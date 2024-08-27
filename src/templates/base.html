@@ -12,7 +12,10 @@
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
 </head>
-<body class="flex flex-col min-h-screen" hx-ext="response-targets">
+<body class="flex flex-col min-h-screen"
+hx-ext="response-targets"
+hx-target-429="#error-429"
+>
     <!-- Header -->
     {% include 'layout/header.html' %}
 

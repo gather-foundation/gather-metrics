@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Any, Union
 
-from models import Patient, Sex
-from schemas import AgeUnitEnum, HcircUnitEnum, NormalizedPatientData, PatientInput
+from .models import Patient, Sex
+from .schemas import AgeUnitEnum, HcircUnitEnum, NormalizedPatientData, PatientInput
 
 
 def is_valid_age(age_value: Union[float, date], age_unit: str) -> tuple[bool, dict]:

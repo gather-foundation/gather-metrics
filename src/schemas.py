@@ -4,7 +4,7 @@ from typing import Annotated, Any, Union
 
 from pydantic import BaseModel, Field, PastDate, field_validator
 
-from models import Sex
+from .models import Sex
 
 
 class HcircUnitEnum(str, Enum):

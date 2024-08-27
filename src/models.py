@@ -4,8 +4,8 @@ from typing import Union
 import numpy as np
 from scipy import stats
 
-from utils.csv_loader import load_csv
-from utils.hcirc_utils import norm_from_percentiles
+from .utils.csv_loader import load_csv
+from .utils.hcirc_utils import norm_from_percentiles
 
 
 class Sex(str, Enum):
