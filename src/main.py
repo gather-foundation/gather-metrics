@@ -1,34 +1,65 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from .routes import router
 from .utils.rate_limiter import setup_rate_limiter
 
+############# FASTAPI APP ###############
 app = FastAPI(
     title="GATHER Metrics",
     description="Tool to calculate head circumference percentiles",
     version="0.0.1",
 )
 
-origins = [
+############# CONTENT SECURITY POLICY ###############
+CSP_POLICY = (
+    "default-src 'self'; "
+    "script-src 'self' https://cdn.tailwindcss.com https://unpkg.com; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "img-src 'self' data:; "
+    "font-src 'self' https://cdn.jsdelivr.net; "
+    "connect-src 'self'; "
+    "frame-src 'none'; "
+    "object-src 'none'; "
+    "base-uri 'self'; "
+    "form-action 'self'; "
+    "block-all-mixed-content; "
+    "upgrade-insecure-requests"
+)
+
+
+class CSPMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["Content-Security-Policy"] = CSP_POLICY
+        return response
+
+
+app.add_middleware(CSPMiddleware)
+
+############# CORS POLICY ###############
+ORIGINS = [
     "https://metrics.gatherfoundation.ch",
     "http://127.0.0.1:8000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Setup rate limiter and add middleware/exception handler
+############# RATE LIMITER ###############
 setup_rate_limiter(app)
+
+############# ROUTER ###############
 app.include_router(router)
 
-
+############# STATIC FILES ###############
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/data", StaticFiles(directory="data"), name="data")
 
