@@ -1,28 +1,36 @@
 from datetime import date
-from typing import Union
+from typing import Any, Union
 
-from models import Patient
-from schemas import NormalizedPatientData, PatientInput
+from .models import Patient, Sex
+from .schemas import AgeUnitEnum, HcircUnitEnum, NormalizedPatientData, PatientInput
 
 
 def is_valid_age(age_value: Union[float, date], age_unit: str) -> tuple[bool, dict]:
-    context = {
+    context: dict[str, Any] = {
         "age_value": age_value,
-        "age_unit": age_unit,
+        "age_unit": AgeUnitEnum(age_unit),
+        "error_message": None,
+        "info_message": None,
     }
 
+    if not age_value:
+        print("no age value", age_value)
+        return True, context
+
     # Inline validation for future date of birth
-    if age_unit == "dob" and age_value > date.today():
-        context["error_message"] = "Date of birth cannot be in the future."
-        return True, context  # has_error is True
+    if age_unit == "dob":
+        assert isinstance(age_value, date)
+        if age_value > date.today():
+            context["error_message"] = "Date of birth cannot be in the future."
+            return True, context  # has_error is True
 
     # Create a temporary PatientInput instance for validation
     patient_input = PatientInput(
-        age_unit=age_unit,
+        age_unit=AgeUnitEnum(age_unit),
         age_value=age_value,
-        sex="M",  # Temporarily assign valid values for other fields
-        hcirc_value=30.0,
-        hcirc_unit="cm",
+        sex=Sex.M,  # Temporarily assign valid values for other fields
+        hcirc_value=0,
+        hcirc_unit=HcircUnitEnum.cm,
     )
 
     # Normalize the data and check if age is over 21

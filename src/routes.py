@@ -5,8 +5,10 @@ from fastapi import APIRouter, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from schemas import PatientInput
-from services import calculate_hcirc_percentile, is_valid_age
+from .models import Sex
+from .schemas import AgeUnitEnum, HcircUnitEnum, PatientInput
+from .services import calculate_hcirc_percentile, is_valid_age
+from .utils.rate_limiter import limiter
 
 router = APIRouter()
 templates = Jinja2Templates("src/templates")
@@ -17,6 +19,7 @@ templates = Jinja2Templates("src/templates")
 
 # Root Route - Landing Page with Form
 @router.get("/", response_class=HTMLResponse, include_in_schema=False)
+@limiter.limit("100/minute")
 async def root(request: Request):
     return templates.TemplateResponse("main.html", {"request": request, "result": None})
 
@@ -25,23 +28,27 @@ async def root(request: Request):
 
 
 @router.get("/show-dob", response_class=HTMLResponse, include_in_schema=False)
+@limiter.limit("100/minute")
 async def show_dob(request: Request):
     # Render the HTML for the Date of Birth input field
     return templates.TemplateResponse("form/input_dob.html", {"request": request})
 
 
 @router.get("/show-age", response_class=HTMLResponse, include_in_schema=False)
+@limiter.limit("100/minute")
 async def show_age(request: Request):
     # Render the HTML for the Age + Unit input field
     return templates.TemplateResponse("form/input_age.html", {"request": request})
 
 
-@router.post("/validate-age", response_class=HTMLResponse)
+@router.post("/validate-age", response_class=HTMLResponse, include_in_schema=False)
+@limiter.limit("100/minute")
 async def validate_age(
     request: Request,
-    age_value: Union[float, date] = Form(...),
-    age_unit: str = Form(...),
+    age_value: Union[float, date] = Form(None),
+    age_unit: AgeUnitEnum = Form(...),
 ):
+
     try:
         has_error, context = is_valid_age(age_value, age_unit)
         context["request"] = request
@@ -65,6 +72,7 @@ async def validate_age(
 @router.post(
     "/head-circumference", include_in_schema=False, response_class=HTMLResponse
 )
+@limiter.limit("100/minute")
 async def display_result(
     request: Request,
     age_unit: str = Form(...),
@@ -75,11 +83,11 @@ async def display_result(
 ):
     try:
         patient_input = PatientInput(
-            age_unit=age_unit,
+            age_unit=AgeUnitEnum(age_unit),
             age_value=age_value,
-            sex=sex,
+            sex=Sex(sex),
             hcirc_value=hcirc_value,
-            hcirc_unit=hcirc_unit,
+            hcirc_unit=HcircUnitEnum(hcirc_unit),
         )
 
         normalized_data = patient_input.to_normalized()
@@ -105,7 +113,7 @@ async def display_result(
             },
             status_code=422,
         )
-    except Exception:
+    except Exception as e:
         # Render the form with a generic error message and a placeholder result
         return templates.TemplateResponse(
             "result/hcirc_result.html",
@@ -120,7 +128,18 @@ async def display_result(
 
 # Return Result as JSON
 @router.post("/api/v1/head-circumference", response_class=JSONResponse)
-async def calculate_percentile_api(patient_input: PatientInput):
+@limiter.limit("100/minute")
+async def calculate_percentile_api(patient_input: PatientInput, request: Request):
     normalized_data = patient_input.to_normalized()
     hcirc_percentile = calculate_hcirc_percentile(normalized_data)
     return JSONResponse(content={"hcirc_percentile": hcirc_percentile})
+
+
+############# OTHER ROUTES ###############
+
+
+@router.get("/too-many-requests", response_class=HTMLResponse, include_in_schema=False)
+async def too_many_requests(request: Request):
+    return templates.TemplateResponse(
+        "shared/error_429.html", {"request": request}, status_code=429
+    )

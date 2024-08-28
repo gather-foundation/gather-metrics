@@ -16,10 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configured pre-commit hooks to automate the running of linters and formatters on code changes.
 - Setup basic rest api with head-circumference routes, service and model for domain logic
 - Used dto to handle normalized user input
-- Added
 
 ### Features
 
 - **Head Circumference**:
   - Integrated model that calculates head circumference percentile based on sex, age, head circumference measurement of a patient.
   - Added form input validation using error html partials.
+  - Added rate limiting and content security policy

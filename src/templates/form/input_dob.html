@@ -1,9 +1,13 @@
 <div id="age_input_section" class="mb-4">
     <label for="age_value" class="block mb-2 font-medium">Date of Birth</label>
     <input type="date" id="age_value" name="age_value" class="input input-bordered rounded w-full"
-           hx-post="/validate-age" hx-trigger="change" hx-target="#age_input_section" hx-swap="outerHTML"
+           hx-post="/validate-age"
+           hx-trigger="blur"
+           hx-target="#age_input_section"
+           hx-swap="outerHTML"
            hx-params="*"
-           value="{{ age_value }}" required>
+           value="{{ age_value }}"
+           required>
 
     {% if error_message %}
         {% include 'shared/error.html' %}
