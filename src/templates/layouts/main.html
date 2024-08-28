@@ -1,0 +1,10 @@
+{% extends "/layouts/base.html" %}
+
+{% block base_content %}
+    <main class="flex-grow flex-col justify-center items-center">
+        <div class="section--dark self-center">{% include 'sections/hcirc/section_hcirc.html' %}</div>
+        <div class="section--dark self-center">{% include 'sections/model/section_model.html' %}</div>
+        <div class="self-center">{% include 'sections/gather/section_gather.html' %}</div>
+        <div class="self-center">{% include 'sections/stalicla/section_stalicla.html' %}</div>
+    </main>
+{% endblock %}

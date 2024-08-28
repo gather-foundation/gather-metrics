@@ -1,5 +1,13 @@
 {% extends "components/section.html" %}
 
 {% block section_content %}
-<h2 class="text-3xl font-bold mb-4 text-center">About GATHER Foundation</h2>
+<h2 class="text-3xl font-bold mb-8 mt-8 text-center">About GATHER Foundation</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-center w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
+    <!-- First Column: Gather -->
+    <div class="card--dark">{% include "sections/gather/cards/card_gather.html" %}</div>
+
+    <!-- Second Column: Quote -->
+    <div class="card--light">{% include "sections/gather/cards/card_quote.html" %}</div>
+
+</div>
 {% endblock %}

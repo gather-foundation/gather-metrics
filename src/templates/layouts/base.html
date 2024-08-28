@@ -12,20 +12,17 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
+    {% block head %}{% endblock %}
 </head>
 <body class="flex flex-col min-h-screen"
 hx-ext="response-targets"
 hx-target-429="#error-429"
 >
-    <!-- Header -->
+<!-- Header -->
     {% include 'layouts/header.html' %}
 
-    <!-- Main -->
-    <main class="flex-grow flex-col justify-center items-center">
-        <div class="section--dark self-center">{% include 'sections/hcirc/section_hcirc.html' %}</div>
-        <div class="section--dark self-center">{% include 'sections/model/section_model.html' %}</div>
-        <div class="self-center">{% include 'sections/gather/section_gather.html' %}</div>
-    </main>
+    {% block base_content %}
+    {% endblock %}
 
     <!-- Footer -->
     {% include 'layouts/footer.html' %}

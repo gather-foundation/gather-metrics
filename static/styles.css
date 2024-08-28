@@ -1,11 +1,12 @@
+.alert--info {
+    background-color: #ECF1FF;
+}
+
 body {
     font-family: 'Roboto', sans-serif; /* Apply the Roboto font */
     background-color: #FFFFFF; /* Light gray background color */
 }
 
-.alert--info {
-    background-color: #ECF1FF;
-}
 
 .btn.btn--gather {
     background-color: #ECF1FF; /* Light blue background */
@@ -26,15 +27,56 @@ body {
     text-align: center; /* Center the text */
     font-weight: 600; /* Slightly bolder text */
 }
-
-.section--dark {
-    background-color: #FAFBFF;
-}
-
 .card--light {
     background-color: #FFFFFF;
 }
 
 .card--dark {
     background-color: #FAFBFF;
+}
+
+.quote {
+    position: relative;
+    padding: 3rem;
+    margin: 2rem;
+    text-align: center;
+    max-width: 800px; /* Increased width for larger quotes */
+    margin: auto;
+}
+
+.quote::before,
+.quote::after {
+    content: '“'; /* Starting quote for before and ending for after */
+    font-size: 10rem; /* Very large quotation mark size */
+    color: #446DF6; /* Custom blue color */
+    position: absolute;
+    line-height: 1; /* Ensures proper spacing for large quotes */
+}
+
+.quote::before {
+    top: -3rem; /* Adjusted to fit the larger quote size */
+    left: 0; /* Adjusted to fit the larger quote size */
+}
+
+.quote::after {
+    content: '”'; /* Closing quote */
+    bottom: -9rem; /* Adjusted to fit the larger quote size */
+    right: 0; /* Adjusted to fit the larger quote size */
+}
+
+.section--dark {
+    background-color: #FAFBFF;
+}
+
+
+.section-divider--light {
+    width: 100%; /* Set the width to 80% of the container */
+    margin: 1px auto; /* Center the divider with top and bottom padding */
+    border-top: 2px solid white; /* Default color and thickness for the divider */
+}
+
+.section-divider--dark {
+    width: 100%; /* Set the width to 80% of the container */
+    margin: 1px auto; /* Center the divider with top and bottom padding */
+    border-top: 2px solid #C9D4FF; /* Default color and thickness for the divider */
 }

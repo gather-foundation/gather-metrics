@@ -23,7 +23,7 @@ templates = Jinja2Templates("src/templates")
 @limiter.limit("100/minute")
 async def root(request: Request):
     return templates.TemplateResponse(
-        "layouts/base.html", {"request": request, "result": None}
+        "layouts/main.html", {"request": request, "result": None}
     )
 
 
@@ -156,4 +156,11 @@ async def calculate_percentile_api(patient_input: PatientInput, request: Request
 async def too_many_requests(request: Request):
     return templates.TemplateResponse(
         "partials/error_429.html", {"request": request}, status_code=429
+    )
+
+
+@router.get("/legal", response_class=HTMLResponse, include_in_schema=False)
+async def legal(request: Request):
+    return templates.TemplateResponse(
+        "clauses/legal.html", {"request": request}, status_code=200
     )
