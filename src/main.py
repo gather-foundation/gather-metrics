@@ -30,14 +30,20 @@ CSP_POLICY = (
 )
 
 
-class CSPMiddleware(BaseHTTPMiddleware):
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)
         response.headers["Content-Security-Policy"] = CSP_POLICY
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=63072000; includeSubDomains; preload"
+        )
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         return response
 
 
-app.add_middleware(CSPMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
 
 ############# CORS POLICY ###############
 ORIGINS = [
