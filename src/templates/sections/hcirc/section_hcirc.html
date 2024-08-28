@@ -5,12 +5,17 @@
 <h2 class="text-3xl font-bold mb-4 text-center">Head Circumference Percentile Calculator</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-start w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
     <!-- First Column: Form -->
-    <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
-        {% include "forms/form_hcirc/form_hcirc.html" %}
+    {% include "sections/hcirc/cards/card_form.html" %}
+
+    <!-- Second Column: Result -->
+    <div class="flex flex-col gap-4">
+        <div id="hcirc-percentile">
+            {% include "sections/hcirc/cards/card_result.html" %}
+        </div>
+        <div>
+            {% include "sections/hcirc/cards/card_understanding.html" %}
+        </div>
     </div>
 
-    <div class="flex flex-col space-y-4">
-        {% include "sections/hcirc/cards/card_result.html" %}
-    </div>
 </div>
 {% endblock %}

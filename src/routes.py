@@ -131,7 +131,10 @@ async def display_result(
             {
                 "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
-                "message": Message,
+                "message": Message(
+                    category="error",
+                    text="Something went wrong. Please try again later or contact info@gatherfoundation.ch",
+                ),
             },
             status_code=500,
         )

@@ -1,6 +1,6 @@
 <div id="age_input_section" class="mb-4">
-    <label for="age_value" class="block mb-2 font-medium">Date of Birth</label>
-    <input type="date" id="age_value" name="age_value" class="input input-bordered rounded w-full"
+    <label for="age_value" class="block mb-2 font-bold">Date of Birth</label>
+    <input type="date" id="age_value" name="age_value" class="input input-bordered rounded w-full border-gray-300"
            hx-post="/validate-age"
            hx-trigger="blur"
            hx-target="#age_input_section"
@@ -9,17 +9,17 @@
            value="{{ age_value }}"
            required>
 
-
-        {% if message %}
-           {% if message.category == 'error' %}
-               {% include "components/error.html" %}
-           {% elif message.category == 'info' %}
-               {% include "components/info.html" %}
-           {% endif %}
-       {% endif %}
-
     <input type="hidden" id="age_unit" name="age_unit" value="dob">
 
-    <button type="button" class="btn btn-link text-blue-400"
+    <button type="button" class="btn btn-link pl-0 text-blue-600"
             hx-get="/show-age" hx-target="#age_input_section" hx-swap="outerHTML">Use Age</button>
+
+    {% if message %}
+        {% if message.category == 'error' %}
+            {% include "components/error.html" %}
+        {% elif message.category == 'info' %}
+            {% include "components/info.html" %}
+        {% endif %}
+    {% endif %}
+
 </div>

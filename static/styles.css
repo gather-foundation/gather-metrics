@@ -3,6 +3,20 @@ body {
     background-color: #FFFFFF; /* Light gray background color */
 }
 
+.alert--info {
+    background-color: #ECF1FF;
+}
+
+.btn.btn--gather {
+    background-color: #ECF1FF; /* Light blue background */
+    color: #3b82f6; /* Text color (darker blue) */
+    border-radius: 9999px; /* Full rounding for a pill shape */
+    border: 1px solid #C3D1FF; /* Thin border with a matching color */
+    padding: 0.75rem 2rem; /* Padding to make the button look larger and more centered */
+    text-align: center; /* Center the text */
+    font-weight: 600; /* Slightly bolder text */
+}
+
 .section--dark {
     background-color: #FAFBFF;
 }
