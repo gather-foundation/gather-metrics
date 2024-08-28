@@ -1,10 +1,16 @@
-from fastapi import FastAPI
+import os
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from .routes import router
 from .utils.rate_limiter import setup_rate_limiter
+
+# Check the environment to determine if we are in development mode
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 ############# FASTAPI APP ###############
 app = FastAPI(
@@ -12,6 +18,25 @@ app = FastAPI(
     description="Tool to calculate head circumference percentiles",
     version="0.0.1",
 )
+
+
+############# MIDDLEWARE TO FORCE HTTPS ###############
+if ENVIRONMENT != "development":
+    # Middleware to force HTTPS in production
+    app.add_middleware(HTTPSRedirectMiddleware)
+
+    @app.middleware("http")
+    async def add_security_headers(request: Request, call_next):
+        # Process the request and get the response
+        response = await call_next(request)
+
+        # Add HSTS header in production
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=63072000; includeSubDomains; preload"
+        )
+
+        return response
+
 
 ############# CONTENT SECURITY POLICY ###############
 CSP_POLICY = (
