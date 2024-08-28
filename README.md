@@ -54,7 +54,7 @@ pip install -r requirements.txt
 1. Start the FasAPI development server:
 
 ```bash
-fastapi dev src/main.py
+export ENVIRONMENT="development" && fastapi dev src/main.py
 ```
 
 2. Access local site

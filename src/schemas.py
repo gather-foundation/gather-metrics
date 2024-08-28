@@ -1,69 +1,84 @@
 from datetime import date
+from enum import Enum
 from typing import Union
 
-from pydantic import BaseModel, Field, field_validator, model_validator
-from typing_extensions import Annotated
+from pydantic import BaseModel, Field, field_validator
+
+from .models import Sex
+
+
+class HcircUnitEnum(str, Enum):
+    cm = "cm"
+    inch = "inch"
+
+
+class AgeUnitEnum(str, Enum):
+    years = "years"
+    months = "months"
+    weeks = "weeks"
+    days = "days"
+    dob = "dob"
 
 
 class NormalizedPatientData(BaseModel):
     age_years: float
-    sex: str
+    sex: Sex
     hcirc_cm: float
 
 
 class PatientInput(BaseModel):
-    age_unit: str
-    age_value: Union[float, date]  # For years/months/weeks/days or date of birth
-    sex: str
+    age_unit: AgeUnitEnum
+    age_value: Union[float, date] = Field(
+        union_mode="left_to_right"
+    )  # For years/months/weeks/days or date of birth
+    sex: Sex
     hcirc_value: float
-    hcirc_unit: str
-
-    @field_validator("sex")
-    def validate_sex(cls, v):
-        if v not in {"M", "F"}:
-            raise ValueError('Sex must be "M" or "F"')
-        return v
-
-    @field_validator("hcirc_unit")
-    def validate_hcirc_unit(cls, v):
-        if v not in {"cm", "in"}:
-            raise ValueError('Head circumference unit must be "cm" or "in"')
-        return v
+    hcirc_unit: HcircUnitEnum
 
     @field_validator("age_value")
     def validate_age_value(cls, v, values):
         if isinstance(v, date) and v > date.today():
-            print(v, date.today())
             raise ValueError("Date of birth cannot be in the future.")
         return v
 
     def to_normalized(self) -> "NormalizedPatientData":
         """Normalize input values to years, sex as 'M' or 'F', and head circumference in cm."""
-
+        print("AGE VALUE", self.age_value)
         # Normalize age to years based on the age_unit
-        if self.age_unit == "years":
-            age_years = self.age_value
-        elif self.age_unit == "months":
-            age_years = self.age_value / 12.0
-        elif self.age_unit == "weeks":
-            age_years = self.age_value / 52.1775  # 52.1775 weeks in a year
-        elif self.age_unit == "days":
-            age_years = (
-                self.age_value / 365.25
-            )  # 365.25 days in a year to account for leap years
-        elif self.age_unit == "dob":
+        if self.age_unit == AgeUnitEnum.dob:
+            assert isinstance(self.age_value, date)
             today = date.today()
             age_years = (today - self.age_value).days / 365.25
         else:
-            raise ValueError("Invalid age unit provided.")
+            if isinstance(self.age_value, date) and self.age_value == date(1970, 1, 1):
+                # TODO: Stop Pydantic coercing 0.0 into a date
+                age_value_float = 0.0
+            elif isinstance(self.age_value, float):
+                age_value_float = self.age_value
+            else:
+                raise ValueError("Invalid age value provided.")
+
+            if age_value_float == 0.0:
+                age_years = 0.0
+            elif self.age_unit == AgeUnitEnum.years:
+                age_years = age_value_float
+            elif self.age_unit == AgeUnitEnum.months:
+                age_years = age_value_float / 12.0
+            elif self.age_unit == AgeUnitEnum.weeks:
+                age_years = age_value_float / 52.1775
+            elif self.age_unit == AgeUnitEnum.days:
+                age_years = age_value_float / 365.25
+            else:
+                raise ValueError("Invalid age unit provided.")
 
         # Normalize head circumference to cm
-        if self.hcirc_value and self.hcirc_unit == "in":
+        if self.hcirc_value is None or self.hcirc_value < 0:
+            raise ValueError("No valid head circumference value was provided.")
+
+        if self.hcirc_unit == HcircUnitEnum.inch:
             hcirc_cm = self.hcirc_value * 2.54
-        elif self.hcirc_value:
-            hcirc_cm = self.hcirc_value
         else:
-            raise ValueError("No head circumference value was provided.")
+            hcirc_cm = self.hcirc_value
 
         return NormalizedPatientData(
             age_years=age_years, sex=self.sex, hcirc_cm=hcirc_cm
