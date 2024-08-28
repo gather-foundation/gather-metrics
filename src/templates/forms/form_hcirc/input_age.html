@@ -17,12 +17,15 @@
             <option value="days" {% if age_unit == 'days' %}selected{% endif %}>Days</option>
         </select>
     </div>
-    {% if error_message %}
-        {% include "shared/error.html" %}
+
+    {% if message %}
+        {% if message.category == 'error' %}
+            {% include "components/error.html" %}
+        {% elif message.category == 'info' %}
+            {% include "components/info.html" %}
+        {% endif %}
     {% endif %}
-    {% if info_message %}
-        {% include "shared/info.html" %}
-    {% endif %}
+
     <button type="button" class="btn btn-link text-blue-400"
             hx-get="/show-dob" hx-target="#age_input_section" hx-swap="outerHTML">Use Date of Birth</button>
 </div>

@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from .models import Sex
 from .schemas import AgeUnitEnum, HcircUnitEnum, PatientInput
 from .services import calculate_hcirc_percentile, is_valid_age
+from .types.message import Message
 from .utils.rate_limiter import limiter
 
 router = APIRouter()
@@ -21,7 +22,9 @@ templates = Jinja2Templates("src/templates")
 @router.get("/", response_class=HTMLResponse, include_in_schema=False)
 @limiter.limit("100/minute")
 async def root(request: Request):
-    return templates.TemplateResponse("main.html", {"request": request, "result": None})
+    return templates.TemplateResponse(
+        "layouts/base.html", {"request": request, "result": None}
+    )
 
 
 ############# HEAD CIRCUMFERENCE ###############
@@ -31,14 +34,18 @@ async def root(request: Request):
 @limiter.limit("100/minute")
 async def show_dob(request: Request):
     # Render the HTML for the Date of Birth input field
-    return templates.TemplateResponse("form/input_dob.html", {"request": request})
+    return templates.TemplateResponse(
+        "forms/form_hcirc/input_dob.html", {"request": request}
+    )
 
 
 @router.get("/show-age", response_class=HTMLResponse, include_in_schema=False)
 @limiter.limit("100/minute")
 async def show_age(request: Request):
     # Render the HTML for the Age + Unit input field
-    return templates.TemplateResponse("form/input_age.html", {"request": request})
+    return templates.TemplateResponse(
+        "forms/form_hcirc/input_age.html", {"request": request}
+    )
 
 
 @router.post("/validate-age", response_class=HTMLResponse, include_in_schema=False)
@@ -55,7 +62,9 @@ async def validate_age(
 
         # Decide which template to render based on age_unit
         template_name = (
-            "form/input_dob.html" if age_unit == "dob" else "form/input_age.html"
+            "forms/form_hcirc/input_dob.html"
+            if age_unit == "dob"
+            else "forms/form_hcirc/input_age.html"
         )
 
         return templates.TemplateResponse(template_name, context)
@@ -94,33 +103,35 @@ async def display_result(
         hcirc_percentile = calculate_hcirc_percentile(normalized_data)
 
         return templates.TemplateResponse(
-            "result/hcirc_result.html",
+            "sections/hcirc/cards/card_result.html",
             {
                 "request": request,
                 "hcirc_percentile": hcirc_percentile,
-                "error_message": None,
+                "message": None,
             },
         )
 
     except ValueError as e:
         # Render the form with an error message and a placeholder result
         return templates.TemplateResponse(
-            "result/hcirc_result.html",
+            "sections/hcirc/cards/card_result.html",
             {
                 "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
-                "error_message": "Please check your input and try again.",
+                "message": Message(
+                    category="error", text="Please check your input and try again."
+                ),
             },
             status_code=422,
         )
     except Exception as e:
         # Render the form with a generic error message and a placeholder result
         return templates.TemplateResponse(
-            "result/hcirc_result.html",
+            "sections/hcirc/cards/card_result.html",
             {
                 "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
-                "error_message": "There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
+                "message": Message,
             },
             status_code=500,
         )
@@ -141,5 +152,5 @@ async def calculate_percentile_api(patient_input: PatientInput, request: Request
 @router.get("/too-many-requests", response_class=HTMLResponse, include_in_schema=False)
 async def too_many_requests(request: Request):
     return templates.TemplateResponse(
-        "shared/error_429.html", {"request": request}, status_code=429
+        "partials/error_429.html", {"request": request}, status_code=429
     )

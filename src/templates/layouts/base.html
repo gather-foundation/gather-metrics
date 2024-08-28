@@ -18,12 +18,12 @@ hx-ext="response-targets"
 hx-target-429="#error-429"
 >
     <!-- Header -->
-    {% include 'layout/header.html' %}
+    {% include 'layouts/header.html' %}
 
     <main class="flex-grow flex-col justify-center items-center">
-        {% include 'sections/section_main.html' %}
-        {% include 'sections/section_model.html' %}
-        {% include 'sections/section_about.html' %}
+        <div class="section--dark self-center">{% include 'sections/hcirc/section_hcirc.html' %}</div>
+        <div class="section--dark self-center">{% include 'sections/model/section_model.html' %}</div>
+        {% include 'sections/about/section_about.html' %}
     </main>
 
     <!-- Main Content -->
@@ -35,6 +35,6 @@ hx-target-429="#error-429"
     </main> -->
 
     <!-- Footer -->
-    {% include 'layout/footer.html' %}
+    {% include 'layouts/footer.html' %}
 </body>
 </html>

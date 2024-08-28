@@ -1,0 +1,19 @@
+{% extends "components/card.html" %}
+
+{% block card_content %}
+<div id="hcirc-percentile" class="flex flex-col space-y-4">
+    <div class="p-4 sm:p-6 rounded-lg">
+        <!-- Display the Head Circumference Percentile Result -->
+        <div id="hcirc-percentile-success" class="text-center sm:text-left text-xl sm:text-2xl font-bold">
+            {% include "partials/hcirc_percentile.html" %}
+        </div>
+
+        <!-- Display Error Message if Exists -->
+        <div id="hcirc-percentile-error" class="mt-2">
+            {% if message %}
+                {% include 'components/error.html' %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

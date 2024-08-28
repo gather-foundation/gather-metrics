@@ -9,12 +9,14 @@
            value="{{ age_value }}"
            required>
 
-    {% if error_message %}
-        {% include 'shared/error.html' %}
-    {% endif %}
-    {% if info_message %}
-        {% include 'shared/info.html' %}
-    {% endif %}
+
+        {% if message %}
+           {% if message.category == 'error' %}
+               {% include "components/error.html" %}
+           {% elif message.category == 'info' %}
+               {% include "components/info.html" %}
+           {% endif %}
+       {% endif %}
 
     <input type="hidden" id="age_unit" name="age_unit" value="dob">
 

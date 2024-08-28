@@ -6,3 +6,11 @@ body {
 .section--dark {
     background-color: #FAFBFF;
 }
+
+.card--light {
+    background-color: #FFFFFF;
+}
+
+.card--dark {
+    background-color: #FAFBFF;
+}
