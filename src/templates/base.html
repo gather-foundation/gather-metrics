@@ -8,6 +8,7 @@
     <!-- Include HTMX -->
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
@@ -19,13 +20,19 @@ hx-target-429="#error-429"
     <!-- Header -->
     {% include 'layout/header.html' %}
 
+    <main class="flex-grow flex-col justify-center items-center">
+        {% include 'sections/section_main.html' %}
+        {% include 'sections/section_model.html' %}
+        {% include 'sections/section_about.html' %}
+    </main>
+
     <!-- Main Content -->
-    <main class="flex-grow flex justify-center items-center">
+    <!-- <main class="flex-grow flex justify-center items-center">
         <div id="content" class="w-full sm:w-9/10 md:w-6/10 lg:w-5/10 max-w-screen-lg p-8">
             {% block content %}
             {% endblock %}
         </div>
-    </main>
+    </main> -->
 
     <!-- Footer -->
     {% include 'layout/footer.html' %}

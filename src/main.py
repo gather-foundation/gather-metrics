@@ -42,9 +42,9 @@ if ENVIRONMENT != "development":
 CSP_POLICY = (
     "default-src 'self'; "
     "script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js 'sha256-QOOQu4W1oxGqd2nbXbxiA1Di6OHQOLQD+o+G9oWL8YY='; "
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com/ https://fonts.gstatic.com/; "
     "img-src 'self' data: https://fastapi.tiangolo.com; "
-    "font-src 'self' https://cdn.jsdelivr.net; "
+    "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com/; "
     "connect-src 'self'; "
     "frame-src 'none'; "
     "object-src 'none'; "

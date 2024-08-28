@@ -1,0 +1,21 @@
+{% extends "components/section.html" %}
+
+{% block section_content %}
+<div id="error-429"></div>
+<h2 class="text-3xl font-bold mb-4 text-center">Head Circumference Percentile Calculator</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-start w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
+    <!-- First Column: Form -->
+    <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+        {% include "form/form.html" %}
+    </div>
+    <!-- Second Column: Results and Explanation -->
+    <div class="flex flex-col space-y-4">
+        {% include "result/hcirc_result.html" %}
+        <div class="bg-base-100 p-4 sm:p-6 rounded-lg shadow-lg">
+            <h2 class="text-center sm:text-left text-lg sm:text-xl font-bold">Understanding the Results</h2>
+            <p class="text-center sm:text-left">Explanation regarding the head circumference percentile goes here. Provide details about what the results mean and how they should be interpreted.</p>
+        </div>
+        <div id="error"></div>
+    </div>
+</div>
+{% endblock %}

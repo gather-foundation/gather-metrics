@@ -1,14 +1,8 @@
-/* Default state - Hide the date input field */
-#age_date_input {
-    display: none;
+body {
+    font-family: 'Roboto', sans-serif; /* Apply the Roboto font */
+    background-color: #FFFFFF; /* Light gray background color */
 }
 
-/* Show the date input field when DOB is selected */
-input#age_dob:checked ~ #age_date_input {
-    display: block;
-}
-
-/* Hide the float input field when DOB is selected */
-input#age_dob:checked ~ #age_float_input {
-    display: none;
+.section--dark {
+    background-color: #FAFBFF;
 }
