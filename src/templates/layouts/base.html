@@ -20,19 +20,12 @@ hx-target-429="#error-429"
     <!-- Header -->
     {% include 'layouts/header.html' %}
 
+    <!-- Main -->
     <main class="flex-grow flex-col justify-center items-center">
         <div class="section--dark self-center">{% include 'sections/hcirc/section_hcirc.html' %}</div>
         <div class="section--dark self-center">{% include 'sections/model/section_model.html' %}</div>
-        {% include 'sections/about/section_about.html' %}
+        <div class="self-center">{% include 'sections/gather/section_gather.html' %}</div>
     </main>
-
-    <!-- Main Content -->
-    <!-- <main class="flex-grow flex justify-center items-center">
-        <div id="content" class="w-full sm:w-9/10 md:w-6/10 lg:w-5/10 max-w-screen-lg p-8">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main> -->
 
     <!-- Footer -->
     {% include 'layouts/footer.html' %}
