@@ -138,7 +138,7 @@ async def calculate_percentile_api(patient_input: PatientInput, request: Request
 ############# OTHER ROUTES ###############
 
 
-@router.get("/too-many-requests", response_class=HTMLResponse)
+@router.get("/too-many-requests", response_class=HTMLResponse, include_in_schema=False)
 async def too_many_requests(request: Request):
     return templates.TemplateResponse(
         "shared/error_429.html", {"request": request}, status_code=429

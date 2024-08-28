@@ -16,9 +16,9 @@ app = FastAPI(
 ############# CONTENT SECURITY POLICY ###############
 CSP_POLICY = (
     "default-src 'self'; "
-    "script-src 'self' https://cdn.tailwindcss.com https://unpkg.com; "
+    "script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js 'sha256-QOOQu4W1oxGqd2nbXbxiA1Di6OHQOLQD+o+G9oWL8YY='; "
     "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-    "img-src 'self' data:; "
+    "img-src 'self' data: https://fastapi.tiangolo.com; "
     "font-src 'self' https://cdn.jsdelivr.net; "
     "connect-src 'self'; "
     "frame-src 'none'; "
