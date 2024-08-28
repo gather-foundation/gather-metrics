@@ -8,26 +8,23 @@
     <!-- Include HTMX -->
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/response-targets.js"></script>
+    {% block head %}{% endblock %}
 </head>
 <body class="flex flex-col min-h-screen"
 hx-ext="response-targets"
 hx-target-429="#error-429"
 >
-    <!-- Header -->
-    {% include 'layout/header.html' %}
+<!-- Header -->
+    {% include 'layouts/header.html' %}
 
-    <!-- Main Content -->
-    <main class="flex-grow flex justify-center items-center">
-        <div id="content" class="w-full sm:w-9/10 md:w-6/10 lg:w-5/10 max-w-screen-lg p-8">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
+    {% block base_content %}
+    {% endblock %}
 
     <!-- Footer -->
-    {% include 'layout/footer.html' %}
+    {% include 'layouts/footer.html' %}
 </body>
 </html>

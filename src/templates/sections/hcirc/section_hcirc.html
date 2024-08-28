@@ -1,0 +1,21 @@
+{% extends "components/section.html" %}
+
+{% block section_content %}
+<div id="error-429"></div>
+<h2 class="text-3xl font-bold mb-8 text-center">Head Circumference Percentile Calculator</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-start w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
+    <!-- First Column: Form -->
+    <div class="card--light">{% include "sections/hcirc/cards/card_form.html" %}</div>
+
+    <!-- Second Column: Result -->
+    <div class="flex flex-col gap-4">
+        <div id="hcirc-percentile" class="card--light">
+            {% include "sections/hcirc/cards/card_result.html" %}
+        </div>
+        <div>
+            <div class="card--light">{% include "sections/hcirc/cards/card_understanding.html" %}</div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

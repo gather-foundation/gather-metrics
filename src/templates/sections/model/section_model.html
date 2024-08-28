@@ -1,0 +1,9 @@
+{% extends "components/section.html" %}
+
+{% block section_content %}
+<div class="section-divider--light"></div>
+<h2 class="text-3xl font-bold mb-8 mt-8 text-center">About our Model</h2>
+<div class="card--light max-w-screen-sm flex flex-col self-center justify-center items-center mb-4">
+    {% include "sections/model/cards/card_model.html" %}
+</div>
+{% endblock %}

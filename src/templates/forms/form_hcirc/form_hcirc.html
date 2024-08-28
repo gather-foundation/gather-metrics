@@ -1,0 +1,18 @@
+<div id="form-container">
+    <form hx-post="/head-circumference"
+    hx-target="#hcirc-percentile"
+    hx-target-error="#hcirc-percentile"
+    hx-swap="innerHTML">
+
+        <!-- Age + Unit Input Field -->
+        {% include "forms/form_hcirc/input_age.html" %}
+
+        <!-- Sex -->
+        {% include "forms/form_hcirc/input_sex.html" %}
+
+        <!-- Head Circumference Value + Unit -->
+        {% include "forms/form_hcirc/input_hcirc.html" %}
+
+        <button type="submit" class="btn btn--gather w-full">Calculate</button>
+    </form>
+</div>

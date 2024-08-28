@@ -3,14 +3,16 @@ from typing import Any, Union
 
 from .models import Patient, Sex
 from .schemas import AgeUnitEnum, HcircUnitEnum, NormalizedPatientData, PatientInput
+from .types.message import Message
 
 
-def is_valid_age(age_value: Union[float, date], age_unit: str) -> tuple[bool, dict]:
+def is_valid_age(
+    age_value: Union[float, date], age_unit: str
+) -> tuple[bool, dict[str, Any]]:
     context: dict[str, Any] = {
         "age_value": age_value,
         "age_unit": AgeUnitEnum(age_unit),
-        "error_message": None,
-        "info_message": None,
+        "message": None,  # Optional[Message] for holding the message object
     }
 
     if not age_value:
@@ -21,7 +23,9 @@ def is_valid_age(age_value: Union[float, date], age_unit: str) -> tuple[bool, di
     if age_unit == "dob":
         assert isinstance(age_value, date)
         if age_value > date.today():
-            context["error_message"] = "Date of birth cannot be in the future."
+            context["message"] = Message(
+                category="error", text="Date of birth cannot be in the future."
+            )
             return True, context  # has_error is True
 
     # Create a temporary PatientInput instance for validation
@@ -39,8 +43,9 @@ def is_valid_age(age_value: Union[float, date], age_unit: str) -> tuple[bool, di
 
     # Add info message if age is over 21
     if age_years > 21:
-        context["info_message"] = (
-            "Ages over 21 years are accepted, but they won't affect the result."
+        context["message"] = Message(
+            category="info",
+            text="Ages over 21 years are accepted, but they won't affect the result.",
         )
 
     return False, context  # has_error is False
