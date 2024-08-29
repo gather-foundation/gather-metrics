@@ -23,7 +23,7 @@ templates = Jinja2Templates("src/templates")
 @limiter.limit("100/minute")
 async def root(request: Request):
     return templates.TemplateResponse(
-        "layouts/main.html", {"request": request, "result": None}
+        request=request, name="layouts/main.html", context={"result": None}
     )
 
 
@@ -35,7 +35,8 @@ async def root(request: Request):
 async def show_dob(request: Request):
     # Render the HTML for the Date of Birth input field
     return templates.TemplateResponse(
-        "forms/form_hcirc/input_dob.html", {"request": request}
+        request=request,
+        name="forms/form_hcirc/input_dob.html",
     )
 
 
@@ -44,7 +45,8 @@ async def show_dob(request: Request):
 async def show_age(request: Request):
     # Render the HTML for the Age + Unit input field
     return templates.TemplateResponse(
-        "forms/form_hcirc/input_age.html", {"request": request}
+        request=request,
+        name="forms/form_hcirc/input_age.html",
     )
 
 
@@ -67,7 +69,9 @@ async def validate_age(
             else "forms/form_hcirc/input_age.html"
         )
 
-        return templates.TemplateResponse(template_name, context)
+        return templates.TemplateResponse(
+            request=request, name=template_name, context=context
+        )
 
     except Exception as e:
         print(e)
@@ -103,9 +107,9 @@ async def display_result(
         hcirc_percentile = calculate_hcirc_percentile(normalized_data)
 
         return templates.TemplateResponse(
-            "sections/hcirc/cards/card_result.html",
-            {
-                "request": request,
+            request=request,
+            name="sections/hcirc/cards/card_result.html",
+            context={
                 "hcirc_percentile": hcirc_percentile,
                 "message": None,
             },
@@ -114,9 +118,10 @@ async def display_result(
     except ValueError as e:
         # Render the form with an error message and a placeholder result
         return templates.TemplateResponse(
-            "sections/hcirc/cards/card_result.html",
-            {
-                "request": request,
+            request=request,
+            name="sections/hcirc/cards/card_result.html",
+            context={
+                # "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
                 "message": Message(
                     category="error", text="Please check your input and try again."
@@ -127,9 +132,10 @@ async def display_result(
     except Exception as e:
         # Render the form with a generic error message and a placeholder result
         return templates.TemplateResponse(
-            "sections/hcirc/cards/card_result.html",
-            {
-                "request": request,
+            request=request,
+            name="sections/hcirc/cards/card_result.html",
+            context={
+                # "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
                 "message": Message(
                     category="error",
@@ -155,12 +161,16 @@ async def calculate_percentile_api(patient_input: PatientInput, request: Request
 @router.get("/too-many-requests", response_class=HTMLResponse, include_in_schema=False)
 async def too_many_requests(request: Request):
     return templates.TemplateResponse(
-        "partials/error_429.html", {"request": request}, status_code=429
+        request=request,
+        name="partials/error_429.html",
+        status_code=429,
     )
 
 
 @router.get("/legal", response_class=HTMLResponse, include_in_schema=False)
 async def legal(request: Request):
     return templates.TemplateResponse(
-        "clauses/legal.html", {"request": request}, status_code=200
+        request=request,
+        name="clauses/legal.html",
+        status_code=200,
     )
