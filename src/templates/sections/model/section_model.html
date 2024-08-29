@@ -2,8 +2,17 @@
 
 {% block section_content %}
 <div class="section-divider--light"></div>
-<h2 class="text-3xl font-bold mb-8 mt-8 text-center">About our Model</h2>
-<div class="card--light max-w-screen-sm flex flex-col self-center justify-center items-center mb-4">
-    {% include "sections/model/cards/card_model.html" %}
+<h2 class="text-2xl font-bold mb-8 mt-8 text-center">About our Model</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 justify-center items-center w-full sm:w-9/10 md:w-8/10 lg:w-6/10 mx-auto">
+    <!-- First Column: Model -->
+    <div class="card--light rounded-lg max-w-screen-sm flex flex-col self-center justify-center items-center mb-4">
+        {% include "sections/model/cards/card_model.html" %}
+    </div>
+
+    <!-- Second Column: Paper -->
+    <div class="card--dark rounded-lg">
+        {% include "sections/model/cards/card_paper.html" %}
+    </div>
+
 </div>
 {% endblock %}
