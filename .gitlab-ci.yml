@@ -11,9 +11,16 @@ stages:
 test:
   stage: test
   script:
-    - echo "Placeholder for running tests"
+    - pip install -r requirements.txt
+    - pytest --cov-report=xml --cov=src
   rules:
     - if: "$CI_COMMIT_BRANCH =~ /^feature.*$/ || $CI_COMMIT_BRANCH =~ /^fix.*$/"
+  cache:
+    paths:
+      - ~/.cache/pip
+  artifacts:
+    paths:
+      - coverage.xml
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 

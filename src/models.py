@@ -20,8 +20,21 @@ class Patient:
         sex: str,
         hcirc: dict[str, float],
     ):
+        if age < 0:
+            raise ValueError("Age must not be a negative number.")
+
+        if "value_cm" not in hcirc or hcirc["value_cm"] < 0:
+            raise ValueError(
+                "Head circumference (value_cm) must not be a negative number."
+            )
+
+        if not isinstance(sex, Sex):
+            raise ValueError(
+                f"Sex must be an instance of the Sex enum, got {sex} instead."
+            )
+
         self.age = age
-        self.sex = sex
+        self.sex = Sex(sex)
         self.hcirc = hcirc
 
     def calculate_hcirc_percentile(self) -> float:
