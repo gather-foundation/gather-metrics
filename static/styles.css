@@ -68,15 +68,19 @@ body {
     background-color: #FAFBFF;
 }
 
+.section--light {
+    background-color: #FFFFFF;
+}
+
 
 .section-divider--light {
     width: 100%; /* Set the width to 80% of the container */
     margin: 1px auto; /* Center the divider with top and bottom padding */
-    border-top: 2px solid white; /* Default color and thickness for the divider */
+    border-top: 4px solid white; /* Default color and thickness for the divider */
 }
 
 .section-divider--dark {
     width: 100%; /* Set the width to 80% of the container */
     margin: 1px auto; /* Center the divider with top and bottom padding */
-    border-top: 2px solid #C9D4FF; /* Default color and thickness for the divider */
+    border-top: 1px solid #C9D4FF; /* Default color and thickness for the divider */
 }
