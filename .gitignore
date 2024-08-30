@@ -16,6 +16,7 @@ dist
 node_modules
 env
 gather-metrics-env
+venv
 .mypy_cache
 __pycache__
 .VSCodeCounter
