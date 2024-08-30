@@ -43,7 +43,6 @@ class PatientInput(BaseModel):
 
     def to_normalized(self) -> "NormalizedPatientData":
         """Normalize input values to years, sex as 'M' or 'F', and head circumference in cm."""
-        print("AGE VALUE", self.age_value)
         # Normalize age to years based on the age_unit
         if self.age_unit == AgeUnitEnum.dob:
             assert isinstance(self.age_value, date)

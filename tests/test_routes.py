@@ -27,6 +27,11 @@ def future_dob_data():
 
 
 @pytest.fixture
+def no_age_data():
+    return {"age_value": None, "age_unit": "years"}
+
+
+@pytest.fixture
 def low_hcirc_data():
     return {
         "age_unit": "years",
@@ -70,6 +75,22 @@ def invalid_data():
     }
 
 
+@pytest.fixture
+def patch_dependencies(monkeypatch):
+    # Mock the function that causes the error
+    def mock_is_valid_age(*args, **kwargs):
+        raise ValueError("Simulated exception")
+
+    def mock_calculate_hcirc_percentile(*args, **kwargs):
+        raise RuntimeError("Simulated exception")
+
+    # Ensure the correct import path
+    monkeypatch.setattr("src.routes.is_valid_age", mock_is_valid_age)
+    monkeypatch.setattr(
+        "src.routes.calculate_hcirc_percentile", mock_calculate_hcirc_percentile
+    )
+
+
 def test_root_route(client):
     response = client.get("/")
     assert response.status_code == 200
@@ -105,6 +126,17 @@ def test_validate_age_route_dob_future(client, future_dob_data):
     assert "Date of birth cannot be in the future." in response.text
 
 
+def test_validate_age_route_no_age(client, no_age_data):
+    response = client.post("/validate-age", data=no_age_data)
+    assert response.status_code == 200
+
+
+def test_validate_age_route_generic_error(client, patch_dependencies):
+    response = client.post("/validate-age", data={"age_value": 10, "age_unit": "years"})
+    assert response.status_code == 500
+    assert "Something went wrong." in response.text
+
+
 def test_hcirc_percentile_placeholder(client):
     response = client.get("/")
     assert response.status_code == 200
@@ -134,6 +166,13 @@ def test_hcirc_percentile_between_one_and_ninety_nine(client, mid_hcirc_data):
 def test_display_result_invalid_data(client, invalid_data):
     response = client.post("/head-circumference", data=invalid_data)
     assert response.status_code == 422  # Check for the error message in the HTML
+
+
+def test_display_result_generic_error(client, mid_hcirc_data, patch_dependencies):
+    response = client.post("/head-circumference", data=mid_hcirc_data)
+    print(response)
+    assert response.status_code == 500
+    assert "Something went wrong." in response.text
 
 
 def test_calculate_percentile_api_valid(client, valid_age_data):

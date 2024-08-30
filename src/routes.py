@@ -74,10 +74,23 @@ async def validate_age(
         )
 
     except Exception as e:
-        print(e)
-        raise HTTPException(
+        # Render the form with a generic error message and a placeholder result
+        template_name = (
+            "forms/form_hcirc/input_dob.html"
+            if age_unit == "dob"
+            else "forms/form_hcirc/input_age.html"
+        )
+
+        return templates.TemplateResponse(
+            request=request,
+            name=template_name,
+            context={
+                "message": Message(
+                    category="error",
+                    text="Something went wrong. Please try again later or contact info@gatherfoundation.ch",
+                ),
+            },
             status_code=500,
-            detail="There was an unexpected error processing your request. Please try again later or contact info@gatherfoundation.ch",
         )
 
 
@@ -121,7 +134,6 @@ async def display_result(
             request=request,
             name="sections/hcirc/cards/card_result.html",
             context={
-                # "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
                 "message": Message(
                     category="error", text="Please check your input and try again."
@@ -135,7 +147,6 @@ async def display_result(
             request=request,
             name="sections/hcirc/cards/card_result.html",
             context={
-                # "request": request,
                 "hcirc_percentile": None,  # Placeholder to clear the result
                 "message": Message(
                     category="error",
