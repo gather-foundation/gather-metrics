@@ -1,32 +1,44 @@
-import os
-
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
+from .config import logger, settings
 from .routes import router
 from .utils.rate_limiter import setup_rate_limiter
 
-# Check the environment to determine if we are in development mode
-ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-
 ############# FASTAPI APP ###############
 app = FastAPI(
-    title="GATHER Metrics",
-    description="Tool to calculate head circumference percentiles",
-    version="0.0.1",
+    title=settings.app_name,
+    description=settings.description,
+    version=settings.version,
 )
 
 
+############# MIDDLEWARE TO LOG EXCEPTIONS ###############
+@app.middleware("http")
+async def log_exceptions(request: Request, call_next):
+    try:
+        response = await call_next(request)
+        return response
+    except Exception as e:
+        # Log the error with traceback
+        logger.error("Exception occurred", exc_info=e)
+        return JSONResponse(
+            status_code=500, content={"message": "Internal Server Error"}
+        )
+
+
 ############# MIDDLEWARE TO FORCE HTTPS ###############
-if ENVIRONMENT != "development":
+if settings.environment != "development":
     # Middleware to force HTTPS in production
     app.add_middleware(HTTPSRedirectMiddleware)
 
     @app.middleware("http")
     async def add_security_headers(request: Request, call_next):
+        logger.info(f"New request: {request.method} {request.url}")
         # Process the request and get the response
         response = await call_next(request)
 
@@ -38,27 +50,11 @@ if ENVIRONMENT != "development":
         return response
 
 
-############# CONTENT SECURITY POLICY ###############
-CSP_POLICY = (
-    "default-src 'self'; "
-    "script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js 'sha256-QOOQu4W1oxGqd2nbXbxiA1Di6OHQOLQD+o+G9oWL8YY='; "
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com/ https://fonts.gstatic.com/; "
-    "img-src 'self' data: https://fastapi.tiangolo.com; "
-    "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com/; "
-    "connect-src 'self'; "
-    "frame-src 'none'; "
-    "object-src 'none'; "
-    "base-uri 'self'; "
-    "form-action 'self'; "
-    "block-all-mixed-content; "
-    "upgrade-insecure-requests"
-)
-
-
+############# MIDDLEWARE FOR SECURITY ###############
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)
-        response.headers["Content-Security-Policy"] = CSP_POLICY
+        response.headers["Content-Security-Policy"] = settings.csp_policy
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Strict-Transport-Security"] = (
@@ -71,14 +67,9 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 app.add_middleware(SecurityHeadersMiddleware)
 
 ############# CORS POLICY ###############
-ORIGINS = [
-    "https://metrics.gatherfoundation.ch",
-    "http://127.0.0.1:8000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ORIGINS,
+    allow_origins=settings.origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -93,9 +84,3 @@ app.include_router(router)
 ############# STATIC FILES ###############
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/data", StaticFiles(directory="data"), name="data")
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
