@@ -15,8 +15,9 @@ def is_valid_age(
         "message": None,  # Optional[Message] for holding the message object
     }
 
+    print("hello there")
+
     if not age_value:
-        print("no age value", age_value)
         return True, context
 
     # Inline validation for future date of birth
