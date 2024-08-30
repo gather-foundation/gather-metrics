@@ -137,7 +137,8 @@ Want to contribute? Check out our [contribution guidelines](CONTRIBUTING.md).
 <table>
   <tbody>
     <tr>
-      <td align="left" valign="top" width="14.28%"><a href="https://github.com/deliso"><img src="https://avatars.githubusercontent.com/u/64223283?u=0ed4878647cf157cc91d2603afcb1d4d3dcdaeca&v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Sergio Morales</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a>
+      <td align="left" valign="top" width="14.28%"><a href="https://github.com/SamuelValentini"><img src="https://avatars.githubusercontent.com/u/7236635?v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Samuel Valentini</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a></td>
+      <td align="left" valign="top" width="14.28%"><a href="https://github.com/deliso"><img src="https://avatars.githubusercontent.com/u/64223283?u=0ed4878647cf157cc91d2603afcb1d4d3dcdaeca&v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Sergio Morales</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a></td>
     </tr>
   </tbody>
 </table>
