@@ -1,4 +1,4 @@
-from scipy import stats
+from scipy import stats  # type: ignore
 
 
 def norm_from_percentiles(x1, p1, x2, p2):

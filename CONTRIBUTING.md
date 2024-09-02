@@ -43,7 +43,7 @@ source venv/bin/activate
 3. Install Dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### Running Locally
@@ -81,7 +81,7 @@ pytest --cov=src
 ### Technical Requirements
 
 - Linting and Type Hints:
-Ensure your code follows the project's coding standards. Run linters, formatters and Mypy before submitting your PR. Feel free to setup the pre-commit and mypy configuration from the repo.
+Ensure your code follows the project's coding standards. Run linters, formatters and Mypy before submitting your PR. Feel free to setup the pre-commit (`pre-commit install`) and mypy configuration from the repo.
 
 - Branching:
 Submit all pull requests against the `development` branch. Documentation updates can be made against main.
@@ -106,7 +106,7 @@ Small, focused PRs are easier to review and more likely to be merged quickly. La
 3. Bugfixes:
 Direct PRs for bug fixes are welcome, especially for issues already documented. If you're unsure whether something is a bug, open an issue for clarification before submitting a fix.
 
-- Avoid Unsolicited Refactors:
+4. Avoid Unsolicited Refactors:
 Refactoring PRs without functional changes will generally be closed unless specifically requested.
 
 ## Additional Contribution Guidelines

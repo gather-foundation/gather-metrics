@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Union
 
 import numpy as np
-from scipy import stats
+from scipy import stats  # type: ignore
 
 from .utils.csv_loader import load_csv
 from .utils.hcirc_utils import norm_from_percentiles
