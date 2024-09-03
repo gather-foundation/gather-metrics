@@ -6,7 +6,7 @@ Gather Metrics is a lightweight web application designed to assist clinicians in
 
 Visit the live version of the tool at [metrics.gatherfoundation.ch](https://metrics.gatherfoundation.ch)
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)  [![Coverage Status](./reports/coverage/coverage-badge.svg?dummy=8484744)](./reports/coverage/index.html) [![Tests Status](./reports/junit/tests-badge.svg?dummy=8484744)](./reports/junit/tests-badge.svg) 
 
 ## Table of Contents
 
