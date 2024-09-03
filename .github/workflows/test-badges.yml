@@ -1,0 +1,31 @@
+name: Test and Generate Badges
+
+on:
+  pull_request:
+    branches: ["development"]
+
+jobs:
+  tests_and_badges:
+    name: Tests and Badges
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python Dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install genbadge[all]
+      - name:  Run tests and coverage report
+        run: |
+          pytest --junitxml=reports/junit/junit.xml
+          pytest --cov=src --cov-report=xml:./reports/coverage/coverage.xml
+      - name: Generate badges
+        run: |
+          genbadge tests -o ./reports/junit/tests-badge.svg
+          genbadge coverage -v -o ./reports/coverage/coverage-badge.svg
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Badges updated"

@@ -1,0 +1,33 @@
+<div id="age_input_section" class="mb-4">
+    <label for="age_value" class="block mb-2 font-bold">Age</label>
+    <div class="flex space-x-2">
+        <input type="number" id="age_value" min="0" name="age_value" placeholder="Enter age"
+               class="input input-bordered w-full rounded border-gray-300"
+               hx-post="/validate-age"
+               hx-trigger="change"
+               hx-target="#age_input_section"
+               hx-target-error="#age_input_section"
+               hx-swap="outerHTML"
+               hx-params="*"
+               value="{{ age_value }}"
+               required>
+        <select id="age_unit" name="age_unit" class="select select-bordered w-32 bg-white" required>
+            <option value="years" {% if age_unit == 'years' %}selected{% endif %}>Years</option>
+            <option value="months" {% if age_unit == 'months' %}selected{% endif %}>Months</option>
+            <option value="weeks" {% if age_unit == 'weeks' %}selected{% endif %}>Weeks</option>
+            <option value="days" {% if age_unit == 'days' %}selected{% endif %}>Days</option>
+        </select>
+    </div>
+
+    <button type="button" class="btn btn-link pl-0 text-blue-600"
+    hx-get="/show-dob" hx-target="#age_input_section" hx-swap="outerHTML">Use Date of Birth</button>
+
+    {% if message %}
+        {% if message.category == 'error' %}
+            {% include "components/error.html" %}
+        {% elif message.category == 'info' %}
+            {% include "components/info.html" %}
+        {% endif %}
+    {% endif %}
+
+</div>

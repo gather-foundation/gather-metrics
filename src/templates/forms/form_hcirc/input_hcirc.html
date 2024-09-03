@@ -1,0 +1,17 @@
+<div class="mb-8">
+    <label for="hcirc_value" class="block mb-2 font-bold">Head Circumference</label>
+    <div class="flex space-x-2">
+        <input type="number" step="0.1" min="0" id="hcirc_value" name="hcirc_value" placeholder="Enter value" class="input input-bordered rounded w-2/5 sm:w-1/2 lg:w-3/5 border-gray-300" required>
+
+        <div class="flex w-3/5 sm:w-1/2 lg:w-2/5 space-x-2">
+            <div class="flex items-center w-1/2 border border-gray-300 rounded">
+                <input id="hcirc_unit_cm" type="radio" value="cm" name="hcirc_unit" checked="checked" class="w-4 h-4 ms-4 bg-gray-100 border-gray-300 hover:bg-blue-600 hover:text-blue-600 focus:bg-blue-600 focus:text-blue-600 focus:outline-blue-600 checked:bg-blue-600 checked:outline-blue-600">
+                <label for="hcirc_unit_cm" class="w-full ms-2 text-sm font-medium text-gray-900">cm</label>
+            </div>
+            <div class="flex items-center w-1/2 border border-gray-300 rounded">
+                <input id="hcirc_unit_in" type="radio" value="inch" name="hcirc_unit" class="w-4 h-4 ms-4 bg-gray-100 border-gray-300 hover:bg-blue-600 hover:text-blue-600 focus:bg-blue-600 focus:text-blue-600 focus:outline-blue-600 checked:bg-blue-600 checked:outline-blue-600">
+                <label for="hcirc_unit_in" class="w-full ms-2 text-sm font-medium text-gray-900">in</label>
+            </div>
+        </div>
+    </div>
+</div>

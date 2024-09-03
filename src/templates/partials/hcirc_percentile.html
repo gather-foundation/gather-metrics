@@ -1,0 +1,11 @@
+{% if hcirc_percentile is undefined or hcirc_percentile is none %}
+    <span id="hcirc-percentile">_ _</span> <!-- Placeholder if hcirc_percentile is not set -->
+{% else %}
+{% if hcirc_percentile < 1 %}
+    <span id="hcirc-percentile">< 1</span>
+{% elif hcirc_percentile > 99 %}
+    <span id="hcirc-percentile">> 99</span>
+{% else %}
+    <span id="hcirc-percentile">{{ hcirc_percentile }}</span>
+{% endif %}
+{% endif %}

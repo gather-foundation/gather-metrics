@@ -7,35 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ****
 
-## [Unreleased] - 2023-04-04
+[1.0.0] - 2024-08-30
 
-### Added
+## Initial Release
 
-- Replaced `Husky` hooks with `Pre-commit` for running different checks, linters and formatters.
-- Introduced a `Conda` environment for managing root-level dependencies such as `Commitizen` and `Pre-commit`.
-- Updated `SETUP.md` with instructions for setting up a `Conda` environment and using `Pre-commit` with various linters.
-- Added `pre-commit-config.yaml` and `environment.yml` files for configuring pre-commit hooks and managing the `Conda` environment, respectively.
+First official release of the Gather Metrics project.
 
-### Removed
+### Features
 
-- Removed `Husky` and `npm` configurations from the root folder.
+#### Head Circumference Calculation:
 
-## [Unreleased] - 2023-03-19
+- Integrated a model that calculates head circumference percentile based on sex, age, and head circumference measurement.
+- Implemented form input validation and error handling to ensure accurate data entry.
+- Provided API endpoints for calculating and retrieving percentile data, following RESTful principles.
 
-### Added
+### Security:
 
-- Implemented `Husky` hooks to run `lint-staged` and open the interactive `Commitizen` console on commit.
-- Updated `SETUP.md` to include instructions on setting up linters for Python and TypeScript projects, as well as configuring Husky and lint-staged.
+- Implemented rate limiting (100 requests/min per IP) to protect against abuse.
+- Added a content security policy (CSP) middleware to enhance application security.
+- Included HTTPS redirect middleware to enforce secure connections.
+- Configured CORS support to manage cross-origin requests safely.
 
-## [Unreleased] - 2023-03-17
+### User Interface:
 
-### Added
+- Designed a user-friendly interface with a focus on usability and accessibility.
+- Developed modular templates using Jinja2 for easy customization and maintenance.
+- Incorporated HTMX for dynamic content updates without full page reloads.
 
-- Initial project template with basic structure and files for a web project, including `README.md`.
-- Created a `SETUP.md` file with repository structure and setup instructions.
-- Added a `CHANGELOG.md` file to track changes in the project.
-- Added `.gitignore` and `.dockerignore` files to handle common files and folders for web projects, including support for multiple programming languages and frameworks.
-- Updated `README.md` to include a code block with a markdown format skeleton.
-- Set up Commitizen for standardized commit messages.
-- Added a basic CI pipeline configuration for continuous integration.
-- Added a basic Docker configuration for containerization and deployment.
+### Documentation:
+
+- Provided comprehensive README and contribution guidelines.
+- Included deployment instructions and security considerations for hosting the application.
+
+### Testing:
+
+- Set up automated tests to ensure code quality and correctness.
+- Included tests for API endpoints, domain logic, and form validation.
+
+### Build Setup
+
+- Configured development tools including mypy for type checking, black for code formatting, and pre-commit hooks for enforcing code quality.
+- Set up commitizen for conventional commits to maintain a consistent commit history.
+
+### Deployment
+
+- The application is containerized using Docker and is deployed on AWS App Runner via Amazon ECR.s
