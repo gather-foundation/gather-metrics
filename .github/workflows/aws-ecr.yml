@@ -9,7 +9,7 @@ env:
   AWS_REGION: "eu-central-1" 
 jobs:
     build:
-      if: github.event.pull_request.merged             # Onl when it's closed and merged
+      if: github.event.pull_request.merged && github.base_ref == 'main'            # Onl when it's closed and merged
       name: Build
       runs-on: ubuntu-latest
       steps:
