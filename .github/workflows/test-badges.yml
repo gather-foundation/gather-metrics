@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests_and_badges:
-    runs-on: ubuntu-latest
+  tests:
     name: TestsandBadges
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     
