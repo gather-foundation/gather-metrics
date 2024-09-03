@@ -6,7 +6,7 @@ Gather Metrics is a lightweight web application designed to assist clinicians in
 
 Visit the live version of the tool at [metrics.gatherfoundation.ch](https://metrics.gatherfoundation.ch)
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)  [![Coverage Status](./reports/coverage/coverage-badge.svg?dummy=8484744)](./reports/coverage/index.html) [![Tests Status](./reports/junit/tests-badge.svg?dummy=8484744)](./reports/junit/tests-badge.svg) 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/commitizen-tools/commitizen)  [![Coverage Status](./reports/coverage/coverage-badge.svg?dummy=8484744)](./reports/coverage/index.html) [![Tests Status](./reports/junit/tests-badge.svg?dummy=8484744)](./reports/junit/tests-badge.svg)
 
 ## Table of Contents
 
@@ -26,7 +26,6 @@ Visit the live version of the tool at [metrics.gatherfoundation.ch](https://metr
     - [Overview](#overview)
   - [Contributing](#contributing)
   - [Contributors](#contributors)
-  - [License](#license)
   - [Contact](#contact)
 
 ## GATHER Foundation
@@ -98,9 +97,6 @@ For more details on contributing to the project or setting up a development envi
 
 ## Architecture
 
-<a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PGcgZmlsbD0ibm9uZSI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIGZpbGw9IiMwNDk3ODkiIHJ4PSI2MCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xMjcuNSA0MUM3OS43NDMgNDEgNDEgNzkuNzQzIDQxIDEyNy41Uzc5Ljc0MyAyMTQgMTI3LjUgMjE0czg2LjUtMzguNzQzIDg2LjUtODYuNVMxNzUuMjU3IDQxIDEyNy41IDQxbS00LjUwNyAxNTUuODM5di01NC4yNThIOTIuODMxbDQzLjMzNi04NC40MnY1NC4yNThoMjkuMDM2eiIvPjwvZz48L3N2Zz4=" width="36" height="36" alt="FastAPI" /></a>
-<a href="https://htmx.org/" target="_blank" rel="noreferrer"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PGcgZmlsbD0ibm9uZSI+PGcgY2xpcC1wYXRoPSJ1cmwoI3NraWxsSWNvbnNIdG14TGlnaHQwKSI+PHBhdGggZmlsbD0iI2Y0ZjJlZCIgZD0iTTE5NiAwSDYwQzI2Ljg2MyAwIDAgMjYuODYzIDAgNjB2MTM2YzAgMzMuMTM3IDI2Ljg2MyA2MCA2MCA2MGgxMzZjMzMuMTM3IDAgNjAtMjYuODYzIDYwLTYwVjYwYzAtMzMuMTM3LTI2Ljg2My02MC02MC02MCIvPjxwYXRoIGZpbGw9IiMzZDcyZDciIGQ9Ik0xMDIuMjUgMTgwLjEyTDEzNy41OCA3NS42YTEuNzUgMS43NSAwIDAgMSAxLjg0LTEuMThsMTQuNjUgMS41YTEuNzUgMS43NSAwIDAgMSAxLjQ5IDIuMjlsLTM0LjUgMTAzLjA4YTEuNzUgMS43NSAwIDAgMS0xLjY2IDEuMmwtMTUuNS0uMDZhMS43NCAxLjc0IDAgMCAxLS43OTYtLjE5NmExLjc1IDEuNzUgMCAwIDEtLjg1NC0yLjExNCIvPjxwYXRoIGZpbGw9IiMxZjIzMjkiIGQ9Ik01OC43NCAxMzEuNDFxLTEuNzYuNjkuMDIgMS4zM3ExOC4xNyA2LjU3IDM1LjA0IDEyLjMzYTEuMzYgMS4zNiAwIDAgMSAuOTEgMS4yNWExODAgMTgwIDAgMCAxLS40MSAxNS45MmE1LjUgNS41IDAgMCAxLS4zNCAxLjU1cS0uMzYuOTMtMS4yOC41NWwtNTcuMTctMjMuNzNhLjY4LjY4IDAgMCAxLS40MS0uNjZsLjc0LTE1LjUzYTEuMDEgMS4wMSAwIDAgMSAuNjEtLjg4bDU1LjktMjMuOTZhMS4wNiAxLjA2IDAgMCAxIC44ODYuMDE3YTEuMSAxLjEgMCAwIDEgLjU4NC42ODNxLjQ1IDEuNTMuNTYgM3EuNTUgNy41LjMgMTQuOTVhLjc0Ljc0IDAgMCAxLS40OC42NmEzMTM5IDMxMzkgMCAwIDEtMzMuNzQgMTIuMjRxLS40My4xNS0uODcuMTdxLS42NC4wMy0uODUuMTFtMTM5LjctLjE3bC0zNS42OS0xMi40NmEuMzUuMzUgMCAwIDEtLjI0LS4zM3EtLjE1LTcuNC4wNi0xNS4wN2E5LjkgOS45IDAgMCAxIC41Ni0zLjEzcS4xOS0uNS43LS4zNnExLjcuNDcgMy4xOCAxLjA4cTI3LjE3IDExLjE4IDU0LjI5IDIyLjQ3cS41OC4yNC41OC44N2wuMDMgMTUuNzFhLjk3Ljk3IDAgMCAxLS41OS44OWwtNTYuOTEgMjMuNWExLjA0IDEuMDQgMCAwIDEtMS4yNzYtLjM5OWExIDEgMCAwIDEtLjE1NC0uNDUxcS0uODktOC45NS0uNDUtMTcuNThhLjg5Ljg5IDAgMCAxIC42LS43OXExOC40OS02LjIzIDM1LjMzLTEyLjY4cTEuNzMtLjY2LS4wMi0xLjI3Ii8+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0ic2tpbGxJY29uc0h0bXhMaWdodDAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0wIDBoMjU2djI1NkgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvZz48L3N2Zz4=" width="36" height="36" alt="HTMX" /></a>
-
 The Gather Metrics project leverages FastAPI for the backend, Jinja2 for templating, HTMX for interactivity and follows REST principles.
 
 ### FastAPI
@@ -118,11 +114,9 @@ HTMX is used to enhance the interactivity of the application by enabling dynamic
 ### Overview
 
 - Backend: FastAPI serves as the core of the application, handling HTTP requests, interacting with the database, and providing RESTful endpoints.
-- HATEOAS: The API responses are enriched with hypermedia links that guide clients on how to interact with the various resources available.
 - Dockerized Deployment: The application is containerized using Docker, allowing for consistent and scalable deployment across different environments, particularly on AWS App Runner.
-This architecture ensures that the Gather Metrics application is robust, scalable, and easy to maintain, providing a seamless experience for clinicians and other users.
 
-![Dependencies](/static/deps/deps.svg)
+This architecture ensures that the Gather Metrics application is robust, scalable, and easy to maintain.
 
 
 ## Contributing
@@ -137,14 +131,11 @@ Want to contribute? Check out our [contribution guidelines](CONTRIBUTING.md).
 <table>
   <tbody>
     <tr>
-      <td align="left" valign="top" width="14.28%"><a href="https://github.com/deliso"><img src="https://avatars.githubusercontent.com/u/64223283?u=0ed4878647cf157cc91d2603afcb1d4d3dcdaeca&v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Sergio Morales</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a>
+      <td align="left" valign="top" width="14.28%"><a href="https://github.com/SamuelValentini"><img src="https://avatars.githubusercontent.com/u/7236635?v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Samuel Valentini</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a></td>
+      <td align="left" valign="top" width="14.28%"><a href="https://github.com/deliso"><img src="https://avatars.githubusercontent.com/u/64223283?u=0ed4878647cf157cc91d2603afcb1d4d3dcdaeca&v=4" width="100px;" alt="Sergio Morales"/><br /><sub><b>Sergio Morales</b></sub></a><br /><a href="https://stalicla.com" title="Profile">STALICLA</a></td>
     </tr>
   </tbody>
 </table>
-
-## License
-
-This project is licensed under the [MIT License](https://opensource.org/license/mit).
 
 ## Contact
 

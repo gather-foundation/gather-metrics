@@ -29,7 +29,7 @@ If you're unsure where to start, look for issues tagged with "help wanted".
 1. First, fork the repository on GitHub by clicking the "Fork" button on the repository's page. This will create a copy of the repository under your own GitHub account.
 
 ```bash
-git clone https://gitub/gatherfoundation/tools/gather-metrics.git
+git clone git@github.com:gather-foundation/gather-metrics.git
 cd gather-metrics
 ```
 
@@ -43,7 +43,7 @@ source venv/bin/activate
 3. Install Dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### Running Locally
@@ -65,7 +65,7 @@ Visit http://127.0.0.1:8000/docs for the Swagger documentation.
 4. Example API call
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/v1/head-circumference" -H "Content-Type: application/json" -d '{"age_years": 3, "sex": "M", "hcirc_value": 50}'
+curl -X POST "http://127.0.0.1:8000/api/v1/head-circumference" -H "Content-Type: application/json" -d '{"age_value": 3, "age_unit": "years", "sex": "M", "hcirc_value": 50, "hcirc_unit": "cm"}'
 ```
 
 ### Running Tests:
@@ -81,7 +81,7 @@ pytest --cov=src
 ### Technical Requirements
 
 - Linting and Type Hints:
-Ensure your code follows the project's coding standards. Run linters, formatters and Mypy before submitting your PR. Feel free to setup the pre-commit and mypy configuration from the repo.
+Ensure your code follows the project's coding standards. Run linters, formatters and Mypy before submitting your PR. Feel free to setup the pre-commit (`pre-commit install`) and mypy configuration from the repo.
 
 - Branching:
 Submit all pull requests against the `development` branch. Documentation updates can be made against main.
@@ -106,7 +106,7 @@ Small, focused PRs are easier to review and more likely to be merged quickly. La
 3. Bugfixes:
 Direct PRs for bug fixes are welcome, especially for issues already documented. If you're unsure whether something is a bug, open an issue for clarification before submitting a fix.
 
-- Avoid Unsolicited Refactors:
+4. Avoid Unsolicited Refactors:
 Refactoring PRs without functional changes will generally be closed unless specifically requested.
 
 ## Additional Contribution Guidelines
