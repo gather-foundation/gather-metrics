@@ -3,9 +3,6 @@ name: Test and Generate Badges
 on:
   pull_request:
     branches: ["development"]
-  push:
-    branches: ["development"]
-  workflow_dispatch:
 
 jobs:
   tests_and_badges:
