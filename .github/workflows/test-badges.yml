@@ -9,7 +9,7 @@ on:
 jobs:
   tests_and_badges:
     runs-on: ubuntu-latest
-    name: Tests and Badges
+    name: TestsandBadges
     permissions:
       contents: write
     
