@@ -5,6 +5,8 @@ on:
     branches: ["development"]
   push:
     branches: ["development"]
+  workflow_dispatch:
+
 jobs:
   tests_and_badges:
     name: Tests and Badges
