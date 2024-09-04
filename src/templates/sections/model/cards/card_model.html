@@ -1,5 +1,20 @@
 {% extends "components/card.html" %}
 
 {% block card_content %}
-    <p class="p-2 text-base text-center">This model provides updated growing curves for head circumference from newborn up to 21 years. The model assumes that, for each age group, head circumferences are gaussian distributed.</p>
+<div class="flex flex-col gap-2 p-2 sm:pl-10 sm:pr-10 justify-between h-full">
+        <div class="flex flex-col gap-4 sm:pl-6 sm:pr-6">
+            <h3 class="text-xl font-bold text-center mb-6">About our Model</h3>
+            <p class="p-2 pt-0 text-base text-center">This model provides updated growing curves for head circumference from newborn up to 21 years.</p>
+            <p class="p-2 pt-0 text-base text-center">The model assumes that, for each age group, head circumferences are gaussian distributed.</p>
+        </div>
+        <div class="self-center">
+            <p class="text-base text-center font-bold">The model is based on the article</p>
+            <button class="btn btn--link w-fit mt-4 hover:bg-indigo-100 active:bg-blue-600 active:text-white">
+                <img src="/static/logos/logo_science_direct.svg" alt="Science Direct logo">
+                <a class="text-xs sm:text-md" href="https://www.jpeds.com/article/S0022-3476(10)00020-X/abstract" target="blank">
+                    10.1016/j.jpeds.2010.01.009
+                </a>
+            </button>
+        </div>
+    </div>
 {% endblock %}
