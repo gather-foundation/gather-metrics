@@ -27,6 +27,8 @@ body {
     text-align: center; /* Center the text */
     font-weight: 600; /* Slightly bolder text */
 }
+
+
 .card--light {
     background-color: #FFFFFF;
 }
